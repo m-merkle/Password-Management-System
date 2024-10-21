@@ -1,0 +1,11 @@
+*.o
+*.gch
+
+*.exe
+*.out
+
+**/obj
+
+*.swp
+*.bak
+*.orig
