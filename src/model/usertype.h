@@ -1,17 +1,19 @@
 #ifndef USER_H
 #define USER_H
 
-#
-#
-namespace petShop {
+#include <string>
 
-enum class Role {
-Admin,
-Regular,
-ViewOnly
+namespace passmang {
+
+enum class Role
+{
+    Admin,
+    Regular,
+    ViewOnly
 };
 
-class Usertype {
+class Usertype
+{
   public:
     userType() = delete;
     userType(User t);
@@ -25,4 +27,5 @@ class Usertype {
 };
 
 }
-#endif
+
+#endif /* USER_H */
