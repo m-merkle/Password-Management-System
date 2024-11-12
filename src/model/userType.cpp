@@ -13,30 +13,30 @@ using namespace passMang;
 
 userType::userType(Role r)
 {
-	switch (r) {
-	case Role::Admin:
-		type = Role::Admin;
-		text = "Admin";
-		break;
-	case Role::Regular:
-		type = Role::Regular;
-		text = "Regular";
-		break;
-	case Role::ViewOnly:
-		type = Role::ViewOnly;
-		text = "ViewOnly";
-		break;
-	}
+    switch (r) {
+        case Role::Admin :
+            type = Role::Admin;
+            text = "Admin";
+            break;
+        case Role::Regular :
+            type = Role::Regular;
+            text = "Regular";
+            break;
+        case Role::ViewOnly :
+            type = Role::ViewOnly;
+            text = "ViewOnly";
+            break;
+    }
 }
 
 Role
 userType::getType() const
 {
-	return type;
+    return type;
 }
 
 std::string
 userType::getText() const
 {
-	return text;
+    return text;
 }

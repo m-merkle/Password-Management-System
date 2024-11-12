@@ -14,41 +14,41 @@ using namespace passMang;
 int
 Credential::getCredID() const
 {
-	return credID;
+    return credID;
 }
 
 std::string
 Credential::getCredName() const
 {
-	return credName;
+    return credName;
 }
 
 std::string
 Credential::getEmail() const
 {
-	return email;
+    return email;
 }
 
 std::string
 Credential::getUsername() const
 {
-	return username;
+    return username;
 }
 
 std::string
 Credential::getPassword() const
 {
-	return password;
+    return password;
 }
 
 std::chrono::system_clock::time_point
 Credential::getLastUpdated() const
 {
-	return lastUpdated;
+    return lastUpdated;
 }
 
 void
 Credential::setLastUpdated()
 {
-	lastUpdated = std::chrono::system_clock::now();
+    lastUpdated = std::chrono::system_clock::now();
 }

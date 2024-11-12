@@ -11,26 +11,26 @@
 
 namespace passMang {
 
-    enum class Role
-    {
-        Admin,
-        Regular,
-        ViewOnly
-    };
+enum class Role
+{
+    Admin,
+    Regular,
+    ViewOnly
+};
 
-    class userType
-    {
-    public:
-        userType() = delete;
-        userType(Role r);
+class userType
+{
+  public:
+    userType() = delete;
+    userType(Role r);
 
-        Role getType() const;
-        std::string getText() const;
+    Role getType() const;
+    std::string getText() const;
 
-    private:
-        Role type;
-        std::string text;
-    };
+  private:
+    Role type;
+    std::string text;
+};
 
 }
 
