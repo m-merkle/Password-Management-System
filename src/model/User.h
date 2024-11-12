@@ -1,6 +1,8 @@
-/* Names: Jagger Thurman, 
- * Course: CS455
- * Description: Header file for User class
+/*
+ * Password Manager - Witty Application
+ *
+ * Model - A single user
+ * jathur, 11/12/2024
  */
 
 #ifndef USER_H
@@ -10,42 +12,40 @@
 #include <chrono>
 #include <ctime>
 
-	// Enum for Role
-enum class Role {
-	Admin,
-	Regular,
-	ViewOnly
-};
+#include "userType.h"
 
-class User {
+namespace passMang {
+
+	class User {
 	public:
-		// constructors
 		User() = delete;
-		explicit User(int, std::string&, std::string&, Role);
+		User(int id, std::string& user, std::string& pass, passMang::Role r) :
+			userID{ id }, username{ user }, password{ pass }, type { r } {
+			updateLastLogin();
+		}
 
-		// getters
+		// Getters
 		int getUserID() const;
 		std::string getUsername() const;
 		std::string getPassword() const;
-		std::string getRole() const;
-		TimePoint getLastLogin() const;
+		Role getType() const;
+		std::string getTypeStr() const;
+		std::chrono::system_clock::time_point getLastLogin() const;
 
-		// setters
-		bool setUserID(int);
-		bool setUsername(std::string&);
-		bool setPassword(std::string&);
-		bool setRole(Role);
-		bool setLastLogin(TimePoint);
+		// Setters
+		void updateLastLogin();
 
 	private:
-		
+
 		// fields
 		int userID;
 		std::string username;
 		std::string password;
-		Role role;
-		TimePoint lastLogin;
-		
-};
+		userType type;
+		std::chrono::system_clock::time_point lastLogin;
 
-#endif
+	};
+
+}
+
+#endif /* USER_H */
