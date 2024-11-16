@@ -9,7 +9,7 @@ SRCS=main.cpp passMangApp.cpp \
        #view/home.cpp
 OBJS=${SRCS:S/cpp$/o/g}
 
-CXXFLAGS=-Wall -std=c++17
+CXXFLAGS=-Wall -std=c++17 -g
 CXXFLAGS+=-I/usr/local/include -I${.CURDIR}/model -I${.CURDIR}/view
 LDFLAGS=-L/usr/local/lib
 LDFLAGS+=-lwthttp -lwt

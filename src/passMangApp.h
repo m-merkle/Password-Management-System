@@ -10,8 +10,6 @@
 #include <Wt/WApplication.h>
 #include <Wt/WContainerWidget.h>
 
-//#include "petList.h"
-
 #ifndef PASSMANGAPP_H
 #define PASSMANGAPP_H
 
@@ -31,7 +29,6 @@ class passMangApp: public WApplication {
 
 		std::string appName;
 		WContainerWidget* content;
-
 };
 
 #endif /* PASSMANGAPP_H */

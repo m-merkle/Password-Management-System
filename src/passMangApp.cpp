@@ -8,9 +8,7 @@
 #include <memory>
 #include <utility>
 
-#include <Wt/WAnchor.h>
 #include <Wt/WApplication.h>
-#include <Wt/WBootstrap5Theme.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WText.h>
 
