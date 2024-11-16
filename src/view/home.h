@@ -1,3 +1,10 @@
+/*
+ * Password Manager - Witty Application
+ *
+ * View - home form
+ * mmerkle, 11/15/2024
+*/
+
 #include <Wt/WComboBox.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WLineEdit.h>
@@ -8,14 +15,12 @@
 
 using namespace Wt;
 
-class credHome: public WContainerWidget {
+class credHome: public WContainerWidget{
 	public:
 		credHome() = delete;
-		explicit credHome(petShop::userList& ul);
+		explicit credHome();
 
 	protected:
-		petShop::userList& ul;
-
 		WLineEdit*	nameEdit;
 		WComboBox*	typeEdit;
 		WPushButton*	OkButton;
