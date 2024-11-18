@@ -20,7 +20,7 @@ class User
 {
   public:
     User() = delete;
-    User(int id, std::string& user, std::string& pass, passMang::Role r) :
+    User(int id, std::string& user, std::string& pass, userType r) :
         userID{id}, username{user}, password{pass}, type{r}
     {
         updateLastLogin();
