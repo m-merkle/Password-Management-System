@@ -2,8 +2,8 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle, 11/15/2024
-*/
+ * mmerkle,jathur, 11/15/2024
+ */
 
 #include <memory>
 #include <utility>
@@ -12,80 +12,105 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WText.h>
 
-//add files for views here eventually
+// add files for views here eventually
+#include "addCredentialView.h"
+#include "addUserView.h"
 #include "passMangApp.h"
 
 using namespace Wt;
 
-passMangApp::passMangApp(const WEnvironment& env) : WApplication(env), appName("Password Manager")
+passMangApp::passMangApp(const WEnvironment& env) :
+    WApplication(env), appName("Password Manager")
 {
-	setTitle(appName);
+    setTitle(appName);
 
-	//add CSS theme eventually
-	
-	//install path handler
-	internalPathChanged().connect(this, &passMangApp::onInternalPathChange);
+    // add CSS theme eventually
 
-	//create the base UI
-	createHeaderContainer();
-	createNavigationContainer();
+    // install path handler
+    internalPathChanged().connect(this, &passMangApp::onInternalPathChange);
 
-	auto contentContainer = std::make_unique<WContainerWidget>();
-	//contentContainer->addStyleClass("");
-	content = contentContainer.get();
-	root()->addWidget(std::move(contentContainer));
-	showHomeScreen();
+    // create the base UI
+    createHeaderContainer();
+    createNavigationContainer();
 
-	createFooterContainer();
+    auto contentContainer = std::make_unique<WContainerWidget>();
+    // contentContainer->addStyleClass("");
+    content = contentContainer.get();
+    root()->addWidget(std::move(contentContainer));
+    showHomeScreen();
+
+    createFooterContainer();
 }
 
 void
 passMangApp::onInternalPathChange()
 {
-	assert(content != nullptr);
+    assert(content != nullptr);
 
-	content->clear();
+    content->clear();
 
-	//right now only shows home screen
-	showHomeScreen();
+    if (internalPath() == "/add-user")
+        addUser();
+    else if (internalPath() == "/add-credential")
+        addCredential();
+    else
+        showHomeScreen();
 
-	//need to add the differnt paths to different screens eventually
-	//if(internalPath() == "/"
+    // need to add the differnt paths to different screens eventually
+    // if(internalPath() == "/"
 }
 
 void
 passMangApp::createHeaderContainer()
 {
-	auto header = std::make_unique<WContainerWidget>();
-	header->addWidget(std::make_unique<WText>("<h1>" + appName + "</h1>"));
-	root()->addWidget(std::move(header));
+    auto header = std::make_unique<WContainerWidget>();
+    header->addWidget(std::make_unique<WText>("<h1>" + appName + "</h1>"));
+    root()->addWidget(std::move(header));
 }
 
 void
 passMangApp::createNavigationContainer()
 {
-	//create container for navigation bar and add menu items
-	//right now only home (add more with new screens)
-	auto t = std::make_unique<WText>("<a href='#/home'>Home</a>");
-	t->setInternalPathEncoding(true);
-	root()->addWidget(std::move(t));
+    // create container for navigation bar and add menu items
+    // right now only home (add more with new screens)
+    auto t = std::make_unique<WText>(
+        "<a href='#/home'>Home</a> <a href='#/add-user'>Users</a> <a "
+        "href='#/add-credential'>Credentials</a>");
+    t->setInternalPathEncoding(true);
+    root()->addWidget(std::move(t));
 }
 
 void
 passMangApp::showHomeScreen()
 {
-	assert(content != nullptr);
+    assert(content != nullptr);
 
-	//will eventually be connected to credential list and display that here
-	auto welcomeText = std::make_unique<WText>("Welcome to the password manager app");
-	welcomeText->setInternalPathEncoding(true);
-	content->addWidget(std::move(welcomeText));
+    // will eventually be connected to credential list and display that here
+    auto welcomeText =
+        std::make_unique<WText>("Welcome to the password manager app");
+    welcomeText->setInternalPathEncoding(true);
+    content->addWidget(std::move(welcomeText));
 }
 
 void
 passMangApp::createFooterContainer()
 {
-	auto footer = std::make_unique<WContainerWidget>();
-	footer->addWidget(std::make_unique<WText>("Developed by Better Team of CS455 UNA"));
-	root()->addWidget(std::move(footer));
+    auto footer = std::make_unique<WContainerWidget>();
+    footer->addWidget(
+        std::make_unique<WText>("Developed by Better Team of CS455 UNA"));
+    root()->addWidget(std::move(footer));
+}
+
+void
+passMangApp::addUser()
+{
+    assert(content != nullptr);
+    content->addWidget(std::make_unique<addUserView>());
+}
+
+void
+passMangApp::addCredential()
+{
+    assert(content != nullptr);
+    content->addWidget(std::make_unique<addCredentialView>());
 }

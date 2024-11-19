@@ -2,8 +2,8 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle, 11/15/2024
-*/
+ * mmerkle, jathur,  11/15/2024
+ */
 
 #include <string>
 
@@ -15,20 +15,24 @@
 
 using namespace Wt;
 
-class passMangApp: public WApplication {
-	public:
-		passMangApp()=delete;
-		explicit passMangApp(const WEnvironment &env);
+class passMangApp : public WApplication
+{
+  public:
+    passMangApp() = delete;
+    explicit passMangApp(const WEnvironment& env);
 
-	private:
-		void onInternalPathChange();
-		void createHeaderContainer();
-		void createNavigationContainer();
-		void showHomeScreen();
-		void createFooterContainer();
+  private:
+    void onInternalPathChange();
+    void createHeaderContainer();
+    void createNavigationContainer();
+    void showHomeScreen();
+    void createFooterContainer();
 
-		std::string appName;
-		WContainerWidget* content;
+    void addUser();
+    void addCredential();
+
+    std::string appName;
+    WContainerWidget* content;
 };
 
 #endif /* PASSMANGAPP_H */
