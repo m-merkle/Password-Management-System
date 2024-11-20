@@ -10,7 +10,7 @@ all: utest
 utest: ${OBJS}
 	${CXX} ${CXXFLAGS} -o $@ ${OBJS} ${LDFLAGS}
 
-Credential.o: Credential.h Credential.cpp
+Credential.o: ../../../src/model/Credential.h ../../../src/model/Credential.cpp
 
 clean:
 	@rm -f utest *.o
