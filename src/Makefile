@@ -5,8 +5,9 @@
 PROG=app
 PORT=8097
 SRCS=main.cpp passMangApp.cpp \
+       UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp
        #Credential.cpp User.cpp userType.cpp \
-       #view/home.cpp
+       
 OBJS=${SRCS:S/cpp$/o/g}
 
 CXXFLAGS=-Wall -std=c++17 -g
@@ -27,7 +28,10 @@ ${PROG}: ${OBJS}
 #usertype.o: model/userType.cpp model/userType.h
 
 # views
-#home.o: view/home.h view/home.cpp
+UserForm.o: view/UserForm.h view/UserForm.cpp #model/UserList.h
+addUserView.o: view/addUserView.h view/addUserView.cpp #model/UserList.h
+CredentialForm.o: view/CredentialForm.h view/CredentialForm.cpp #model/CredentialList.h
+addCredentialView.o: view/addCredentialView.h view/addCredentialView.cpp #model/CredentialList.h
 
 # utilities
 clean:

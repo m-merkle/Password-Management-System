@@ -3,7 +3,7 @@
  *
  * Main driver
  * mmerkle, 11/15/2024
-*/
+ */
 
 #include <memory>
 
@@ -14,7 +14,7 @@
 int
 main(int argc, char** argv)
 {
-	return Wt::WRun(argc, argv, [](const Wt::WEnvironment& env) {
-		return std::make_unique<passMangApp>(env);
-	});
+    return Wt::WRun(argc, argv, [](const Wt::WEnvironment& env) {
+        return std::make_unique<passMangApp>(env);
+    });
 }
