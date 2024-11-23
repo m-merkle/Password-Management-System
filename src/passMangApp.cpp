@@ -11,6 +11,9 @@
 #include <Wt/WApplication.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WText.h>
+#include <Wt/WPushButton.h>
+#include <Wt/WLineEdit.h>
+#include <Wt/WBreak.h>
 
 // add files for views here eventually
 #include "addCredentialView.h"
@@ -31,15 +34,64 @@ passMangApp::passMangApp(const WEnvironment& env) :
 
     // create the base UI
     createHeaderContainer();
-    createNavigationContainer();
+    //createNavigationContainer();
 
     auto contentContainer = std::make_unique<WContainerWidget>();
     // contentContainer->addStyleClass("");
     content = contentContainer.get();
     root()->addWidget(std::move(contentContainer));
-    showHomeScreen();
-
+    
+    //showHomeScreen();
+    //call for login screen
+    userLogin();
     createFooterContainer();
+}
+
+void passMangApp::userLogin(){
+    assert(content != nullptr);
+    
+    auto loginContainer = std::make_unique<WContainerWidget>();
+    
+    //create label and username line
+    loginContainer->addWidget(std::make_unique<WText>("Username: "));
+    auto usernameIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
+
+    loginContainer->addWidget(std::make_unique<WBreak>());
+
+    //create label and password line
+    loginContainer->addWidget(std::make_unique<WText>("Password: "));
+    auto passwordIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
+
+    loginContainer->addWidget(std::make_unique<WBreak>());
+    
+    //create login button
+    auto loginButton = loginContainer->addWidget(std::make_unique<WPushButton>("Login"));
+
+    //add container to content
+    content->addWidget(std::move(loginContainer));
+
+    //auto errorContainer = loginContainer->addWidget(std::make_unique<WContainerWidget>());
+ 
+    //validate login once clicked (convert wstring to std::string with .toUTF8 method)
+    loginButton->clicked().connect([this,usernameIn,passwordIn] {
+	if(checkLogin(usernameIn->text().toUTF8(), passwordIn->text().toUTF8())) {
+		showHomeScreen();
+	}
+      	else {
+		//errorContainer->clear();
+		content->addWidget(std::make_unique<WText>("Invalid Login"));
+    	}
+    });
+
+}
+
+bool passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
+{
+    //need to incorporate link to actual database of passwords/usernames so just test here
+    if(usernm == "username" && pass == "password")
+	return true;
+    else
+	return false;
 }
 
 void
@@ -71,8 +123,7 @@ passMangApp::createHeaderContainer()
 void
 passMangApp::createNavigationContainer()
 {
-    // create container for navigation bar and add menu items
-    // right now only home (add more with new screens)
+    // create navigation bar and add menu items
     auto t = std::make_unique<WText>(
         "<a href='#/home'>Home</a> <a href='#/add-user'>Users</a> <a "
         "href='#/add-credential'>Credentials</a>");
@@ -84,7 +135,13 @@ void
 passMangApp::showHomeScreen()
 {
     assert(content != nullptr);
-
+    // remove the login container
+    content->clear();
+    // create navigation starting here so that not there for login page
+    if(navCreated == false){
+	createNavigationContainer();
+	navCreated = true;
+    }
     // will eventually be connected to credential list and display that here
     auto welcomeText =
         std::make_unique<WText>("Welcome to the password manager app");

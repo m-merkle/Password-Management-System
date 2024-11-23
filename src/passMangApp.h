@@ -9,6 +9,8 @@
 
 #include <Wt/WApplication.h>
 #include <Wt/WContainerWidget.h>
+#include <Wt/WLineEdit.h>
+#include <Wt/WPushButton.h>
 
 #ifndef PASSMANGAPP_H
 #define PASSMANGAPP_H
@@ -23,16 +25,18 @@ class passMangApp : public WApplication
 
   private:
     void onInternalPathChange();
+    void userLogin();
+    bool checkLogin(const std::string& usernm, const std::string& pass);
     void createHeaderContainer();
     void createNavigationContainer();
     void showHomeScreen();
     void createFooterContainer();
-
     void addUser();
     void addCredential();
 
     std::string appName;
     WContainerWidget* content;
+    bool navCreated = false;
 };
 
 #endif /* PASSMANGAPP_H */
