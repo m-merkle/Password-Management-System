@@ -36,6 +36,7 @@ class passMangApp : public WApplication
 
     std::string appName;
     WContainerWidget* content;
+    WContainerWidget* navigation;
     bool navCreated = false;
 };
 
