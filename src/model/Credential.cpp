@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Model - A single credential
- * jathur, 11/12/2024
+ * jathur,anpier 11/12/2024
  */
 
 #include <string>
@@ -51,4 +51,32 @@ void
 Credential::setLastUpdated()
 {
     lastUpdated = std::chrono::system_clock::now();
+}
+
+void
+Credential::setCredName(const std::string& name)
+{
+    credName = name;
+    setLastUpdated();
+}
+
+void
+Credential::setEmail(const std::string& mail)
+{
+    email = mail;
+    setLastUpdated();
+}
+
+void
+Credential::setUsername(const std::string& user)
+{
+    username = user;
+    setLastUpdated();
+}
+
+void
+Credential::setPassword(const std::string& pass)
+{
+    password = pass;
+    setLastUpdated();
 }

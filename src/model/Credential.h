@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Model - A single credential
- * jathur, 11/12/2024
+ * jathur,anpier 11/12/2024
  */
 
 #ifndef CREDENTIAL_H
@@ -39,6 +39,10 @@ class Credential
 
     // Setters
     void setLastUpdated();
+    void setCredName(const std::string& name);
+    void setEmail(const std::string& name);
+    void setUsername(const std::string& name);
+    void setPassword(const std::string& name);
 
   private:
     int credID;

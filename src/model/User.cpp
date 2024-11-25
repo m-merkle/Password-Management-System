@@ -48,6 +48,24 @@ User::getLastLogin() const
 }
 
 void
+User::setUsername(const std::string& user)
+{
+    username = user;
+}
+
+void
+User::setPassword(const std::string& newPassword)
+{
+    password = newPassword;
+}
+
+void
+User::setType(const userType& newType)
+{
+    type = newType;
+}
+
+void
 User::updateLastLogin()
 {
     lastLogin = std::chrono::system_clock::now();
