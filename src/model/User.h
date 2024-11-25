@@ -53,4 +53,4 @@ class User
 
 }
 
-#endif USER_H
+#endif // USER_H
