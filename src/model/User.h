@@ -22,7 +22,7 @@ class User
 {
   public:
     User() = delete;
-    explicit User(int id, std::string& user, std::string& pass, userType r) :
+    User(int id, std::string& user, std::string& pass, const userType& r) :
         userID{id}, username{user}, password{pass}, type{r}
     {
         updateLastLogin();
@@ -53,4 +53,4 @@ class User
 
 }
 
-#endif /* USER_H */
+#endif USER_H
