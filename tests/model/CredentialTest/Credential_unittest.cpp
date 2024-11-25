@@ -1,11 +1,12 @@
+#include "../../../src/model/Credential.h"
 #include "gtest/gtest.h"
 #include <chrono>
 #include <thread>
-#include "../../../src/model/Credential.h"
 
 namespace passMang {
 
-TEST(CredentialTest, ConstructorAndGetters) {
+TEST(CredentialTest, ConstructorAndGetters)
+{
     int credID = 1;
     std::string credName = "testCredName1";
     std::string email = "test@email.com";
@@ -21,7 +22,8 @@ TEST(CredentialTest, ConstructorAndGetters) {
     EXPECT_EQ(password, cred.getPassword());
 }
 
-TEST(CredentialTest, UpdateLastUpdated) {
+TEST(CredentialTest, UpdateLastUpdated)
+{
     int credID = 2;
     std::string credName = "CredName2";
     std::string email = "test2@email.com";
@@ -38,4 +40,34 @@ TEST(CredentialTest, UpdateLastUpdated) {
     EXPECT_LT(firstUpdateTime, secondUpdateTime);
 }
 
-} 
+TEST(CredentialTest, Setters)
+{
+    int credID = 3;
+    std::string credName = "CredName3";
+    std::string email = "test3@email.com";
+    std::string username = "Username3";
+    std::string password = "Password123";
+
+    Credential cred(credID, credName, email, username, password);
+
+    // Credential Name
+    std::string newCredName = "NewCredentialName";
+    cred.setCredName(newCredName);
+    EXPECT_EQ(newCredName, cred.getCredName());
+
+    // Email
+    std::string newEmail = "new@email.com";
+    cred.setEmail(newEmail);
+    EXPECT_EQ(newEmail, cred.getEmail());
+
+    // Username
+    std::string newUsername = "newUser";
+    cred.setUsername(newUsername);
+    EXPECT_EQ(newUsername, cred.getUsername());
+
+    // Password
+    std::string newPassword = "newPassword123";
+    cred.setPassword(newPassword);
+    EXPECT_EQ(newPassword, cred.getPassword());
+}
+}
