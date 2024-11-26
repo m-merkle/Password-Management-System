@@ -3,6 +3,8 @@
  *
  * Password Manager Application
  * mmerkle,jathur, 11/15/2024
+ * Reference:
+ * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
  */
 
 #include <memory>
@@ -19,6 +21,9 @@
 #include "addCredentialView.h"
 #include "addUserView.h"
 #include "passMangApp.h"
+#include "searchCredView.h"
+#include "searchUserView.h"
+#include "statusView.h"
 
 using namespace Wt;
 
@@ -116,6 +121,12 @@ passMangApp::onInternalPathChange()
         addUser();
     else if (internalPath() == "/add-credential")
         addCredential();
+    else if (internalPath() == "/search-credential")
+        searchCredential();
+    else if (internalPath() == "/search-user")
+        searchUser();
+    else if (internalPath() == "/searchFailure")
+        resultSearchFailure();
     else
         showHomeScreen();
 
@@ -138,8 +149,11 @@ passMangApp::createNavigationContainer()
         navigation = root()->addWidget(std::make_unique<WContainerWidget>());
         // create navigation bar and add menu items
         auto t = std::make_unique<WText>(
-            "<a href='#/home'>Home</a> <a href='#/add-user'>Users</a> <a "
-            "href='#/add-credential'>Credentials</a>");
+            "<a href='#/home'>Home</a>&nbsp;&nbsp;"
+            "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;"
+            "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;"
+            "<a href='#/search-credential'>Search Credentials</a>&nbsp;&nbsp;"
+            "<a href='#/search-user'>Search Users</a>");
         t->setInternalPathEncoding(true);
         navigation->addWidget(std::move(t));
         // hide the navigation bar to start (since login page shown first)
@@ -161,6 +175,8 @@ passMangApp::showHomeScreen()
     auto welcomeText =
         std::make_unique<WText>("Welcome to the password manager app");
     welcomeText->setInternalPathEncoding(true);
+    content->addWidget(std::make_unique<WBreak>());
+    content->addWidget(std::make_unique<WBreak>());
     content->addWidget(std::move(welcomeText));
 }
 
@@ -168,6 +184,8 @@ void
 passMangApp::createFooterContainer()
 {
     auto footer = std::make_unique<WContainerWidget>();
+    footer->addWidget(std::make_unique<WBreak>());
+    footer->addWidget(std::make_unique<WBreak>());
     footer->addWidget(
         std::make_unique<WText>("Developed by Better Team of CS455 UNA"));
     root()->addWidget(std::move(footer));
@@ -185,4 +203,25 @@ passMangApp::addCredential()
 {
     assert(content != nullptr);
     content->addWidget(std::make_unique<addCredentialView>());
+}
+
+void
+passMangApp::searchCredential()
+{
+    assert(content != nullptr);
+    content->addWidget(std::make_unique<searchCredView>());
+}
+
+void
+passMangApp::searchUser()
+{
+    assert(content != nullptr);
+    content->addWidget(std::make_unique<searchUserView>());
+}
+
+void
+passMangApp::resultSearchFailure()
+{
+    assert(content != nullptr);
+    content->addWidget(std::make_unique<statusView>(false, "No Matches :("));
 }
