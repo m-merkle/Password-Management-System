@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Model - Tests for User and Credential classes
- * jathur, 11/12/2024
+ * jathur,anpier 11/12/2024
  */
 
 #include "Credential.h"
@@ -71,11 +71,28 @@ main()
 
     // SETTERS
 
+    // Last Updated
     c->setLastUpdated();
-
     time1 = std::chrono::system_clock::to_time_t(c->getLastUpdated());
-
     std::cout << "Last Updated Reset: " << std::ctime(&time1) << std::endl;
+
+    // Credential Name
+    c->setCredName("Google Drive");
+    std::cout << "Updated Credential Name: " << c->getCredName() << std::endl;
+
+    // Email
+    c->setEmail("user@gmail.com");
+    std::cout << "Updated Credential Email: " << c->getEmail() << std::endl;
+
+    // Username
+    c->setUsername("Username1");
+    std::cout << "Updated Credential Username: " << c->getUsername()
+              << std::endl;
+
+    // Password
+    c->setPassword("Password1");
+    std::cout << "Updated Credential Password: " << c->getPassword()
+              << std::endl;
 
     return 0;
 }
