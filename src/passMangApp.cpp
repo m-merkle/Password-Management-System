@@ -121,11 +121,15 @@ passMangApp::onInternalPathChange()
         addUser();
     else if (internalPath() == "/add-credential")
         addCredential();
+    else if (internalPath() == "/add-success")
+	resultAddSuccess();
+    else if (internalPath() == "/add-failure")
+	resultAddFailure();
     else if (internalPath() == "/search-credential")
         searchCredential();
     else if (internalPath() == "/search-user")
         searchUser();
-    else if (internalPath() == "/searchFailure")
+    else if (internalPath() == "/search-failure")
         resultSearchFailure();
     else
         showHomeScreen();
@@ -203,6 +207,20 @@ passMangApp::addCredential()
 {
     assert(content != nullptr);
     content->addWidget(std::make_unique<addCredentialView>());
+}
+
+void
+passMangApp::resultAddSuccess()
+{
+    assert(content != nullptr);
+    content->addWidget(std::make_unique<statusView>(true, "Successfully added!"));
+}
+
+void
+passMangApp::resultAddFailure()
+{
+    assert(content != nullptr);
+    content->addWidget(std::make_unique<statusView>(false, "Add failed. Try again"));
 }
 
 void

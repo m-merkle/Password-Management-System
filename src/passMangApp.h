@@ -33,6 +33,8 @@ class passMangApp : public WApplication
     void createFooterContainer();
     void addUser();
     void addCredential();
+    void resultAddSuccess();
+    void resultAddFailure();
     void searchCredential();
     void searchUser();
     void resultSearchFailure();
