@@ -33,6 +33,9 @@ class passMangApp : public WApplication
     void createFooterContainer();
     void addUser();
     void addCredential();
+    void searchCredential();
+    void searchUser();
+    void resultSearchFailure();
 
     std::string appName;
     WContainerWidget* content;
