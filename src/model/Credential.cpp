@@ -12,7 +12,12 @@
 using namespace passMang;
 
 /* constructor */
-Credential::Credential(int id, std::string& n, std::string& e, std::string& user, std::string& pass, std::string& description)
+Credential::Credential(int id,
+                       std::string& n,
+                       std::string& e,
+                       std::string& user,
+                       std::string& pass,
+                       std::string& description)
 {
     this->credID = id;
     this->credName = n;

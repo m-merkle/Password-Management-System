@@ -8,10 +8,10 @@
 #ifndef CREDENTIAL_H
 #define CREDENTIAL_H
 
+#include <Wt/Dbo/Dbo.h>
 #include <chrono>
 #include <ctime>
 #include <string>
-#include <Wt/Dbo/Dbo.h>
 
 namespace passMang {
 
@@ -19,12 +19,12 @@ class Credential
 {
   public:
     Credential() = delete;
-    Credential(int id, 
-	       std::string& n,
-	       std::string& e,
-	       std::string& user,
-	       std::string& pass,
-	       std::string& description);
+    Credential(int id,
+               std::string& n,
+               std::string& e,
+               std::string& user,
+               std::string& pass,
+               std::string& description);
 
     // Getters
     int getCredID() const;
@@ -43,14 +43,15 @@ class Credential
     void setPassword(const std::string& pass);
     void setDescription(const std::string& desc);
 
-    template <class Action> void persist(Action &a)
+    template <class Action>
+    void persist(Action& a)
     {
-	    Wt::Dbo::field(a, credID, "credID");
-	    Wt::Dbo::field(a, credName, "credName");
-	    Wt::Dbo::field(a, email, "email");
-	    Wt::Dbo::field(a, username, "username");
-	    Wt::Dbo::field(a, password, "password");
-	    Wt::Dbo::field(a, description, "description");
+        Wt::Dbo::field(a, credID, "credID");
+        Wt::Dbo::field(a, credName, "credName");
+        Wt::Dbo::field(a, email, "email");
+        Wt::Dbo::field(a, username, "username");
+        Wt::Dbo::field(a, password, "password");
+        Wt::Dbo::field(a, description, "description");
     }
 
   private:
