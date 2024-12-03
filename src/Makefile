@@ -5,8 +5,8 @@
 PROG=app
 PORT=8096
 SRCS=main.cpp passMangApp.cpp \
-       UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp searchCredView.cpp searchUserView.cpp statusView.cpp
-       #Credential.cpp User.cpp userType.cpp \
+       UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp searchCredView.cpp searchUserView.cpp statusView.cpp \
+       userType.cpp  #Credential.cpp User.cpp userType.cpp \
        
 OBJS=${SRCS:S/cpp$/o/g}
 
@@ -25,7 +25,7 @@ ${PROG}: ${OBJS}
 # model
 #cred.o: model/Credential.cpp model/Credential.h
 #user.o: model/User.cpp model/User.h model/userType.h
-#usertype.o: model/userType.cpp model/userType.h
+userType.o: model/userType.cpp model/userType.h
 
 # views
 UserForm.o: view/UserForm.h view/UserForm.cpp #model/UserList.h

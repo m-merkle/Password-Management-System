@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle,jathur, 11/15/2024
+ * mmerkle,jathur, 12/3/2024
  * Reference:
  * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
  */
@@ -103,11 +103,22 @@ bool
 passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 {
     // need to incorporate link to actual database of passwords/usernames so
-    // just test here
-    if (usernm == "username" && pass == "password")
-        return true;
-    else
+    // just test here, sets the role of the user based on login
+    if (usernm == "admin" && pass == "password"){
+        userRole = passMang::Role::Admin;
+	return true;
+    }
+    else if (usernm == "viewonly" && pass == "password"){
+        userRole = passMang::Role::ViewOnly;
+	return true;
+    }
+    else if (usernm == "regular" && pass == "password"){
+        userRole = passMang::Role::Regular;
+	return true;
+    }
+    else{
         return false;
+    }
 }
 
 void
