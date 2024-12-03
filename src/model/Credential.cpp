@@ -11,6 +11,18 @@
 
 using namespace passMang;
 
+/* constructor */
+Credential::Credential(int id, std::string& n, std::string& e, std::string& user, std::string& pass, std::string& description)
+{
+    this->credID = id;
+    this->credName = n;
+    this->email = e;
+    this->username = user;
+    this->password = pass;
+    this->description = description;
+
+    setLastUpdated();
+}
 int
 Credential::getCredID() const
 {
@@ -39,6 +51,12 @@ std::string
 Credential::getPassword() const
 {
     return password;
+}
+
+std::string
+Credential::getDescription() const
+{
+    return description;
 }
 
 std::chrono::system_clock::time_point
@@ -78,5 +96,12 @@ void
 Credential::setPassword(const std::string& pass)
 {
     password = pass;
+    setLastUpdated();
+}
+
+void
+Credential::setDescription(const std::string& desc)
+{
+    description = desc;
     setLastUpdated();
 }
