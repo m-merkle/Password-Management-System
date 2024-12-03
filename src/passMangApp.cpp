@@ -39,6 +39,7 @@ passMangApp::passMangApp(const WEnvironment& env) :
 
     // create the base UI
     createHeaderContainer();
+    
     // create navigation container/bar
     createNavigationContainer();
 
@@ -161,20 +162,45 @@ passMangApp::createNavigationContainer()
 {
     // ensures only one navigation bar made
     if (navCreated == false) {
+
+	//create navigation bar but clear contents (placeholder, fill later)
         navigation = root()->addWidget(std::make_unique<WContainerWidget>());
-        // create navigation bar and add menu items
-        auto t = std::make_unique<WText>(
-            "<a href='#/home'>Home</a>&nbsp;&nbsp;"
-            "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;"
-            "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;"
-            "<a href='#/search-credential'>Search Credentials</a>&nbsp;&nbsp;"
-            "<a href='#/search-user'>Search Users</a>");
-        t->setInternalPathEncoding(true);
-        navigation->addWidget(std::move(t));
+        navigation->clear();
+        
         // hide the navigation bar to start (since login page shown first)
         navigation->hide();
+        
         navCreated = true;
     }
+}
+
+void
+passMangApp::updateNavigation()
+{
+    assert(navigation != nullptr);
+    
+    navigation->clear();
+    
+    // create navigation bar and add menu items based on user role
+    // all will have the home screen and search credentials view		
+    std::string navText = "<a href='#/home'>Home</a>&nbsp;&nbsp;";
+    navText += "<a href='#/search-credential'>Search Credentials</a>&nbsp;&nbsp;";
+
+    if (userRole==passMang::Role::Admin){
+        navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
+        navText += "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;";
+        navText += "<a href='#/search-user'>Search Users</a>&nbsp;&nbsp;";
+    }
+    else if (userRole==passMang::Role::Regular){
+        navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
+    }
+
+    auto t = std::make_unique<WText>(navText);
+    t->setInternalPathEncoding(true);
+    navigation->addWidget(std::move(t));
+    
+    // show after updated navigation (only called after login)
+    navigation->show();
 }
 
 void
@@ -183,9 +209,8 @@ passMangApp::showHomeScreen()
     assert(content != nullptr);
     // remove the login container
     content->clear();
-    // show navigation starting here so that not there for login page
-    navigation->show();
-
+    // update navigation so that navigation options match the user role
+    updateNavigation();
     // will eventually be connected to credential list and display that here
     auto welcomeText =
         std::make_unique<WText>("Welcome to the password manager app");

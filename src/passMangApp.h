@@ -32,6 +32,7 @@ class passMangApp : public WApplication
     bool checkLogin(const std::string& usernm, const std::string& pass);
     void createHeaderContainer();
     void createNavigationContainer();
+    void updateNavigation();
     void showHomeScreen();
     void createFooterContainer();
     void addUser();
