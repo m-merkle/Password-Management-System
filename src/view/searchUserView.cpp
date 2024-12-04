@@ -32,5 +32,5 @@ searchUserView::searchUser()
 {
     // just a test to see if the status is working
     //  ^^will be triggered when user clicks search button
-    wApp->setInternalPath("/searchFailure", true);
+    wApp->setInternalPath("/search-failure", true);
 }

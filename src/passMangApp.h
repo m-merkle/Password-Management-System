@@ -2,8 +2,11 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle, jathur,  11/15/2024
+ * mmerkle, jathur  12/3/2024
  */
+
+// must include this file to use the Role enum
+#include "userType.h"
 
 #include <string>
 
@@ -29,10 +32,13 @@ class passMangApp : public WApplication
     bool checkLogin(const std::string& usernm, const std::string& pass);
     void createHeaderContainer();
     void createNavigationContainer();
+    void updateNavigation();
     void showHomeScreen();
     void createFooterContainer();
     void addUser();
     void addCredential();
+    void resultAddSuccess();
+    void resultAddFailure();
     void searchCredential();
     void searchUser();
     void resultSearchFailure();
@@ -41,6 +47,7 @@ class passMangApp : public WApplication
     WContainerWidget* content;
     WContainerWidget* navigation;
     bool navCreated = false;
+    passMang::Role userRole;
 };
 
 #endif /* PASSMANGAPP_H */
