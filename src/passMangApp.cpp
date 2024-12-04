@@ -39,7 +39,7 @@ passMangApp::passMangApp(const WEnvironment& env) :
 
     // create the base UI
     createHeaderContainer();
-    
+
     // create navigation container/bar
     createNavigationContainer();
 
@@ -105,19 +105,16 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 {
     // need to incorporate link to actual database of passwords/usernames so
     // just test here, sets the role of the user based on login
-    if (usernm == "admin" && pass == "password"){
+    if (usernm == "admin" && pass == "password") {
         userRole = passMang::Role::Admin;
-	return true;
-    }
-    else if (usernm == "viewonly" && pass == "password"){
+        return true;
+    } else if (usernm == "viewonly" && pass == "password") {
         userRole = passMang::Role::ViewOnly;
-	return true;
-    }
-    else if (usernm == "regular" && pass == "password"){
+        return true;
+    } else if (usernm == "regular" && pass == "password") {
         userRole = passMang::Role::Regular;
-	return true;
-    }
-    else{
+        return true;
+    } else {
         return false;
     }
 }
@@ -134,9 +131,9 @@ passMangApp::onInternalPathChange()
     else if (internalPath() == "/add-credential")
         addCredential();
     else if (internalPath() == "/add-success")
-	resultAddSuccess();
+        resultAddSuccess();
     else if (internalPath() == "/add-failure")
-	resultAddFailure();
+        resultAddFailure();
     else if (internalPath() == "/search-credential")
         searchCredential();
     else if (internalPath() == "/search-user")
@@ -163,13 +160,13 @@ passMangApp::createNavigationContainer()
     // ensures only one navigation bar made
     if (navCreated == false) {
 
-	//create navigation bar but clear contents (placeholder, fill later)
+        // create navigation bar but clear contents (placeholder, fill later)
         navigation = root()->addWidget(std::make_unique<WContainerWidget>());
         navigation->clear();
-        
+
         // hide the navigation bar to start (since login page shown first)
         navigation->hide();
-        
+
         navCreated = true;
     }
 }
@@ -178,27 +175,27 @@ void
 passMangApp::updateNavigation()
 {
     assert(navigation != nullptr);
-    
-    navigation->clear();
-    
-    // create navigation bar and add menu items based on user role
-    // all will have the home screen and search credentials view		
-    std::string navText = "<a href='#/home'>Home</a>&nbsp;&nbsp;";
-    navText += "<a href='#/search-credential'>Search Credentials</a>&nbsp;&nbsp;";
 
-    if (userRole==passMang::Role::Admin){
+    navigation->clear();
+
+    // create navigation bar and add menu items based on user role
+    // all will have the home screen and search credentials view
+    std::string navText = "<a href='#/home'>Home</a>&nbsp;&nbsp;";
+    navText +=
+        "<a href='#/search-credential'>Search Credentials</a>&nbsp;&nbsp;";
+
+    if (userRole == passMang::Role::Admin) {
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
         navText += "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;";
         navText += "<a href='#/search-user'>Search Users</a>&nbsp;&nbsp;";
-    }
-    else if (userRole==passMang::Role::Regular){
+    } else if (userRole == passMang::Role::Regular) {
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
     }
 
     auto t = std::make_unique<WText>(navText);
     t->setInternalPathEncoding(true);
     navigation->addWidget(std::move(t));
-    
+
     // show after updated navigation (only called after login)
     navigation->show();
 }
@@ -249,14 +246,16 @@ void
 passMangApp::resultAddSuccess()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<statusView>(true, "Successfully added!"));
+    content->addWidget(
+        std::make_unique<statusView>(true, "Successfully added!"));
 }
 
 void
 passMangApp::resultAddFailure()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<statusView>(false, "Add failed. Try again"));
+    content->addWidget(
+        std::make_unique<statusView>(false, "Add failed. Try again"));
 }
 
 void
