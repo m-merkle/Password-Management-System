@@ -11,6 +11,16 @@
 
 using namespace passMang;
 
+User::User(int id, std::string& user, std::string& pass, const userType& r)
+{
+    this->userID = id;
+    this->username = user;
+    this->password = pass;
+    this->type = r;
+
+    updateLastLogin();
+}
+
 int
 User::getUserID() const
 {

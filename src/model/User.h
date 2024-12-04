@@ -10,6 +10,7 @@
 #ifndef USER_H
 #define USER_H
 
+#include <Wt/Dbo/Dbo.h>
 #include <chrono>
 #include <ctime>
 #include <string>
@@ -22,11 +23,7 @@ class User
 {
   public:
     User() = delete;
-    User(int id, std::string& user, std::string& pass, const userType& r) :
-        userID{id}, username{user}, password{pass}, type{r}
-    {
-        updateLastLogin();
-    }
+    User(int id, std::string& user, std::string& pass, const userType& r);
 
     // Getters
     int getUserID() const;
@@ -41,6 +38,15 @@ class User
     void setUsername(const std::string& user);
     void setPassword(const std::string& pass);
     void setType(const userType& r);
+
+    template <class Action>
+    void persist(Action& a)
+    {
+        Wt::Dbo::field(a, userID, "userID");
+        Wt::Dbo::field(a, username, "username");
+        Wt::Dbo::field(a, password, "password");
+        Wt::Dbo::field(a, type, "type");
+    }
 
   private:
     // fields
