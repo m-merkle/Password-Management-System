@@ -8,6 +8,7 @@
 #ifndef CREDENTIAL_H
 #define CREDENTIAL_H
 
+#include <Wt/Dbo/Dbo.h>
 #include <chrono>
 #include <ctime>
 #include <string>
@@ -22,12 +23,8 @@ class Credential
                std::string& n,
                std::string& e,
                std::string& user,
-               std::string& pass) :
-        credID{id},
-        credName{n}, email{e}, username{user}, password{pass}
-    {
-        setLastUpdated();
-    }
+               std::string& pass,
+               std::string& description);
 
     // Getters
     int getCredID() const;
@@ -35,14 +32,27 @@ class Credential
     std::string getEmail() const;
     std::string getUsername() const;
     std::string getPassword() const;
+    std::string getDescription() const;
     std::chrono::system_clock::time_point getLastUpdated() const;
 
     // Setters
     void setLastUpdated();
     void setCredName(const std::string& name);
-    void setEmail(const std::string& name);
-    void setUsername(const std::string& name);
-    void setPassword(const std::string& name);
+    void setEmail(const std::string& mail);
+    void setUsername(const std::string& user);
+    void setPassword(const std::string& pass);
+    void setDescription(const std::string& desc);
+
+    template <class Action>
+    void persist(Action& a)
+    {
+        Wt::Dbo::field(a, credID, "credID");
+        Wt::Dbo::field(a, credName, "credName");
+        Wt::Dbo::field(a, email, "email");
+        Wt::Dbo::field(a, username, "username");
+        Wt::Dbo::field(a, password, "password");
+        Wt::Dbo::field(a, description, "description");
+    }
 
   private:
     int credID;
@@ -50,6 +60,7 @@ class Credential
     std::string email;
     std::string username;
     std::string password;
+    std::string description;
     std::chrono::system_clock::time_point lastUpdated;
 };
 

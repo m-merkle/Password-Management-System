@@ -11,6 +11,24 @@
 
 using namespace passMang;
 
+User::User()
+{
+    this->userID = -1;
+    this->username = "";
+    this->password = "";
+    this->type = Role::ViewOnly;
+}
+
+User::User(int id, std::string& user, std::string& pass, const userType& r)
+{
+    this->userID = id;
+    this->username = user;
+    this->password = pass;
+    this->type = r;
+
+    updateLastLogin();
+}
+
 int
 User::getUserID() const
 {

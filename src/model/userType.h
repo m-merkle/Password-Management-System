@@ -21,7 +21,7 @@ enum class Role
 class userType
 {
   public:
-    userType() = delete;
+    userType();
     userType(Role r);
 
     Role getType() const;
