@@ -22,7 +22,7 @@ namespace passMang {
 class User
 {
   public:
-    User() = delete;
+    User();
     User(int id, std::string& user, std::string& pass, const userType& r);
 
     // Getters

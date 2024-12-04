@@ -11,6 +11,12 @@
 
 using namespace passMang;
 
+userType::userType()
+{
+    type = Role::ViewOnly;
+    text = "";
+}
+
 userType::userType(Role r)
 {
     switch (r) {
