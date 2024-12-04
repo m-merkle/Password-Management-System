@@ -64,7 +64,8 @@ Prepared by The Better Team\\
 \hline
 Date     & Description   & Revised by \\
 \hline
-n/a & Initial draft & n/a \\
+11-08-2024 & Initial draft & James A. Jerkins \\
+11-19-2024 & Second draft & James A. Jerkins \\
 \hline
 \end{tabular}
 
@@ -112,7 +113,7 @@ MVC & Model-View-Controller Architecture \\
  
 \chapter{SYSTEM OVERVIEW}
 %Give a general description of the functionality, context, and design of your project. Provide any background information if necessary.
-The Shared Password manager system is an application with the purpose of storing user's password credentials. Users log their credentials in the system so they are not tasked with remembering as many password credentials. The system requires an admin user to control and manage user groups. 
+The Shared Password manager system is an application with the purpose of storing user's password credentials. A user can log into their account and access the logged credentials so the user is not burdened with remembering password credentials. The system requires an admin user to control and manage user groups. 
 
 \chapter{SYSTEM ARCHITECTURE}
 \section{Architectural Design}
@@ -132,30 +133,46 @@ The Shared Password manager system will use a Model-View Controller (MVC) Archit
 
 \section{Decomposition Description}
 %Provide a decomposition of each one of the subsystems in the architectural design. You may choose to give a functional description or an object oriented (OO) description. For a functional description use appropriate diagrams such as top-level data flow diagrams (DFD) and structured decomposition diagrams. For an OO description use the appropriate diagrams such as subsysterm model, object digrams, generalization diagram(s), aggregation diagram(s), interface, and specification diagrams.
-The Model-View Architecture chosen has been broken down into several components as presented in figure~\ref{class}. The User class component represents the model functionality of the system. The Web\_interface component contains functionality for the presentation of the User Interface. Lastly, the controller is represented with the Request encryptor class which is responsible for handling the user's request between the model and view components.
+The Model-View Architecture chosen has been broken down into several components as presented in figure~\ref{class1}. The View Component of the system is responsible for connecting the User interface to a client request to the model. The Model component of the diagram is responsible for handling the user's request and making the necessary database request to the SQLite database. 
 
+%The User class component represents the model functionality of the system. The Web\_interface component contains functionality for the presentation of the User Interface. Lastly, the controller is represented with the Request encryptor class which is responsible for handling the user's request between the model and view components.
 
 \begin{figure}
 \centering
 \makebox[\textwidth][c]{%
-  \includegraphics[width=1.5\textwidth]{class.png}
-}
+  \includegraphics[width=1.5\textwidth]{class1.png}}
 \caption{Class diagram}
-\label{arch}
+\label{class1}
+\end{figure}
+
+\begin{figure}
+\centering
+\makebox[\textwidth][c]{%
+  \includegraphics[width=1.0\textwidth]{class2.png}}
+\caption{View - Class diagram}
+\label{class3}
+\end{figure}
+
+\begin{figure}
+\centering
+\makebox[\textwidth][c]{%
+  \includegraphics[width=1.0\textwidth]{class3.png}}
+\caption{Model - Class diagram}
+\label{class2}
 \end{figure}
 
 
 \section{Design Rationale}
 %Discuss the rationale for selecting the architecture described in the previous section including critical issues and trade/offs that were considered. You may discuss other architectures that were considered, provided that you explain why you didn't choose them.
 % NOTE: Since webtoolkit is a customer constraint (required), the architecture is strongly influenced by Witty.
-The Model View Architecture is a commonly used to create web based applications. No other architecture styles were considered due to chosen style has already proven viable for web applications. A design trade off with the chosen architecture, is the whitty based controller module will handle the user request to the view and model.  
+The Model View Architecture is a commonly used to create web based applications. No other architecture styles were considered due to chosen style has already proven viable for web applications. A design trade off with the chosen architecture, is the model module will handle the user request to the view and model.  
 
 
 \chapter{DATA DESIGN}
 \section{Data Description}
 %Explain how the information domain of your system is transformed into data structures. Describe how the major data or system entities are stored, processed and organized.
 The data design for the Shared password manager is centered about User Data and User Credential data storage. 
-The Entity-Relation(E/R) diagram depicts how the data is stored and logically separated between user types.
+The Entity-Relation(E/R) diagram \ref{arch} depicts how the data is stored and logically separated between user types.
 
 
 \begin{figure}
@@ -170,37 +187,69 @@ The Entity-Relation(E/R) diagram depicts how the data is stored and logically se
 
 \section{Data Dictionary}
 %Alphabetically list the system entities or major data along with their types and descriptions. If you provided a functional description in the ``Decomposition'' Section, list all the functions and function parameters. If you provided an OO description, list the objects and the associated attributes, methods and method parameters.
-lets list out each class with parameters.
+Credential:\newline
+-ID\newline
+-name\newline
+-email\newline
+-username\newline
+-password\newline
+-description\newline
+User:\newline
+-ID\newline
+-username\newline
+-password\newline
+-last login time\newline
+
 
 
 \chapter{COMPONENT DESIGN}
 %Give a detailed description of what each component does in a systematic way. If you gave a functional description in ``Decomposition'' section, provide a summary of your algorithm for each function using either a procedural description language (PDL), pseudocode or UML. If you gave an OO description, summarize each object's member functions for all the objects listed using PDL, pseudocode or UML. Describe any local data when necessary. This section should include enough information for a competent programmer to implement each component. It should NOT be actual code.
 % NOTE: UML class, activity, sequence and other UML diagrams are often used in this section.
-The UML classes discussed in this section are depicted in figure~\ref{class}.
+The UML classes discussed in this section are depicted in figure~\ref{class1}. The View component is shown in figure~\ref{class2}. The model and database components are shown in figure~\ref{class2}.
 
 \section{Model}
-The model is comprised of five classes: User, User Manager, Database, Credential, and Role. 
+The model is comprised of five classes: User, UserType, UserList, Credential, CredentialList, and Role. 
 
 \subsection{User}
-The User class has methods for adding, editing, deleting, and viewing credentials. Adding a credential will require the instantiation of a new Credential object that will be stored in the database via the Database class's storeCredential() method. Editing will require retrieving a credential using the Database class's getCredential() method, changing the desired fields, and then storage. Deleting a credential will use the Database class's deleteCredential() method. Finally, viewing credentials will request all current credential entries. In each of these methods, the Role of the user will be checked before proceeding since each type of user has specific access as described in the first chapter.
+The User Class contains information about a selected User made by a currently logged in User. This Class includes functionality for the admin user to make changes and view user with accounts. 
 
-\subsection{User Manager}
+\subsection{UserType}
 The User Manager is a helper class that will be used by Admins. Methods include adding, editing, deleting, and viewing users. Adding a user will instantiate a User class and store it in the database. Editing a user will retrieve a User from the database, change the desired fields, and store the User. Deleting a user will remove a specified User from the database. Viewing users will request all current Users from the database. 
 
-\subsection{Database}
-The Database class handles interaction between the model and the SQLite database. Methods include getting, storing, viewing, and deleting a credential or user. 
+\subsection{Role}
+The Role is an enumerated class to specify the type of user: Admin, Regular, or View-Only. This is used as a field in the UserType class. 
 
 \subsection{Credential}
-The Credential class will have getters and setters for all of the fields. All setters will have input validation. 
+The Credential class contains information about a selected Credential. It contains getters and setters for the User type to view, edit, and add credentials to the database.
 
-\subsection{Role}
-The Role is an enumerated class to specify the type of user: Admin, Regular, or View-Only. This is used as a field in the User class. 
+\subsection{Database}
+The database class shall be responsible for handling update, insert, access, and delete queries to the database for login, credential, and user functionality.
 
 \section{View}
-The view is handled by the Web Interface class. The constructor will set up the Web-toolkit application to appear as shown in the following chapter. 
+The view is handled by a driver that is responsible for handling the different views the view model provides. The View first provides a UserLoginForm which will serve as the default screen for the application.
 
-\section{Controller}
-finish me
+\subsection{UserLoginForm}
+This form should prompt the user for a username and password to enter to access the credential List. It should use the credential List class to fetch authenticate the login from the database. If the login failed the StatusView class should show a status fail, otherwise the credential list should display. See the first screen in figure~\ref{UI_login}. 
+
+\subsection{ViewCredentialForm}
+The Credential form shall display the Credential List using the model, see screens figure~\ref{CredList_RU} through figure~\ref{CredList_AU}.
+
+\subsection{UserListForm}
+The User List form shall display the User List for the admin user, See figure~\ref{UserManagment}. 
+
+\subsection{EditCredentialForm}
+This form class should display a form to edit a Credential to the database. It should make use of the CredentialList class to access the database.
+
+\subsection{EditUserForm}
+This form class should display a form to add a user to the database. It should make use of the UserList class to access the database.
+
+\subsection{AddUserForm}
+This form class should display a form to Edit a user to the database. It should make use of the UserList class to access the database.
+
+\subsection{StatusView}
+This class outputs a status depending on if an operation was successful or not. This functionality can be used by a class to indicate failure or success.
+
+
 
 \chapter{HUMAN INTERFACE DESIGN}
 \section{Overview of User Interface}
