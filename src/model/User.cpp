@@ -29,6 +29,12 @@ User::User(int id, std::string& user, std::string& pass, const userType& r)
     updateLastLogin();
 }
 
+bool
+User::operator==(User user)
+{
+    return (username == user.getUsername() && password == user.getPassword());
+}
+
 int
 User::getUserID() const
 {

@@ -25,6 +25,9 @@ class User
     User();
     User(int id, std::string& user, std::string& pass, const userType& r);
 
+    // Operators
+    bool operator==(User);
+
     // Getters
     int getUserID() const;
     std::string getUsername() const;
