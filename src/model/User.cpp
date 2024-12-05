@@ -11,25 +11,15 @@
 
 using namespace passMang;
 
-User::User()
-{
-    this->userID = -1;
-    this->username = "";
-    this->password = "";
-    this->type = Role::ViewOnly;
-}
+User::User() : userID(-1), username(""), password(""), type(Role::ViewOnly) {}
 
 User::User(int id,
            const std::string& user,
            const std::string& pass,
-           const userType& r)
+           const userType& r) :
+    userID(id),
+    username(user), password(pass), type(r), lastLogin()
 {
-    this->userID = id;
-    this->username = user;
-    this->password = pass;
-    this->type = r;
-
-    updateLastLogin();
 }
 
 bool
