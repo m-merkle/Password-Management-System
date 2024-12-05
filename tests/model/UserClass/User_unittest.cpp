@@ -37,4 +37,21 @@ TEST(UserTest, UpdateLastLogin)
 
     EXPECT_LT(firstLoginTime, secondLoginTime);
 }
+
+TEST(UserTest, Operator)
+{
+    int userID = 3;
+    std::string username = "Username";
+    std::string username2 = "Username2";
+    std::string password = "Password123";
+    userType adminRole(Role::Regular);
+
+    User user1(userID, username, password, adminRole);
+    User user2(userID, username, password, adminRole);
+    User user3(userID, username2, password, adminRole);
+
+    EXPECT_TRUE(user1 == user2);
+    EXPECT_FALSE(user1 == user3);
+    EXPECT_FALSE(user2 == user3);
+}
 }

@@ -21,8 +21,8 @@ enum class Role
 class userType
 {
   public:
-    userType();
-    userType(Role r);
+    userType() = delete;
+    explicit userType(Role r);
 
     Role getType() const;
     std::string getText() const;

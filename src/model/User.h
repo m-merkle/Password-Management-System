@@ -23,7 +23,13 @@ class User
 {
   public:
     User();
-    User(int id, std::string& user, std::string& pass, const userType& r);
+    User(int id,
+         const std::string& user,
+         const std::string& pass,
+         const userType& r);
+
+    // Operators
+    bool operator==(const User& user);
 
     // Getters
     int getUserID() const;
