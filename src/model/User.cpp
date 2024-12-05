@@ -19,7 +19,10 @@ User::User()
     this->type = Role::ViewOnly;
 }
 
-User::User(int id, std::string& user, std::string& pass, const userType& r)
+User::User(int id,
+           const std::string& user,
+           const std::string& pass,
+           const userType& r)
 {
     this->userID = id;
     this->username = user;
@@ -30,7 +33,7 @@ User::User(int id, std::string& user, std::string& pass, const userType& r)
 }
 
 bool
-User::operator==(User user)
+User::operator==(const User& user)
 {
     return (username == user.getUsername() && password == user.getPassword());
 }
