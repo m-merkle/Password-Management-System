@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Model - A type of user
- * jathur, 11/12/2024
+ * jathur, miguel, anpier 12/3/2024
  */
 
 #include <string>

@@ -20,7 +20,14 @@ class Database
                       const std::string& data,
                       const std::string& criteria);
     bool DeleteRecord(const std::string& table, const std::string& criteria);
-
+    /*
+    bool insertUser(const passMang::User& user);
+    bool updateUser(const passMang::User& user);
+    bool deleteUser(const passMang::User& user);
+    bool insertCredential(const passMang::Credential& Credential);
+    bool updateCredential(const passMang::Credential& Credential);
+    bool deleteCredential(const passMang::Credential& Credential);
+	*/
   private:
     sqlite3* database;
     bool openDB();

@@ -2,8 +2,8 @@
  * Password Manager - Witty Application
  *
  * Model - A single user
- * jathur,anpier  11/12/2024
- * Names: Jagger Thurman, Andrew Pierson
+ * jathur,anpier  12/3/2024
+ * Names: Jagger Thurman, Andrew Pierson, Miguel Guiteriez
  * Course: CS
  */
 
@@ -52,6 +52,7 @@ class User
         Wt::Dbo::field(a, username, "username");
         Wt::Dbo::field(a, password, "password");
         Wt::Dbo::field(a, type, "type");
+        Wt::Dbo::field(a, lastLogin, "LastLogin");
     }
 
   private:
