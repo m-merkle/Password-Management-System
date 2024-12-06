@@ -5,14 +5,17 @@
  * mmerkle,jathur 12/5/2024
  * References:
  * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
- * https://www.geeksforgeeks.org/remove-spaces-from-a-given-string
- * https://akh1l.hashnode.dev/stringstream-and-getline-in-cpp 
+ * https://www.geeksforgeeks.org/c-program-remove-spaces-string
+ * https://akh1l.hashnode.dev/stringstream-and-getline-in-cpp
+ * https://www.geeksforgeeks.org/strftime-function-in-c
  */
+#include <chrono>
+#include <ctime>
 #include <iostream>
 #include <memory>
-#include <utility>
-#include <string>
 #include <sstream>
+#include <string>
+#include <utility>
 
 #include <Wt/WApplication.h>
 #include <Wt/WBreak.h>
@@ -23,14 +26,14 @@
 
 #include "passMangApp.h"
 
-//files from view
+// files from view
 #include "addCredentialView.h"
 #include "addUserView.h"
 #include "searchCredView.h"
 #include "searchUserView.h"
 #include "statusView.h"
 
-//files from model
+// files from model
 #include "Database.h"
 #include "User.h"
 #include "userType.h"
@@ -40,7 +43,7 @@ using namespace Wt;
 passMangApp::passMangApp(const WEnvironment& env) :
     WApplication(env), db("model/Passmang.db"), appName("Password Manager")
 {
-    
+
     setTitle(appName);
 
     // add CSS theme eventually
@@ -100,78 +103,77 @@ passMangApp::userLogin()
             // show home screen once validated
             showHomeScreen();
         } else {
-		if (invalidCount == 0) {
-                	content->addWidget(std::make_unique<WText>("Invalid Login"));
-                	invalidCount++;
-            	}
-        	}
+            if (invalidCount == 0) {
+                content->addWidget(std::make_unique<WText>("Invalid Login"));
+                invalidCount++;
+            }
+        }
     });
 }
 
 bool
 passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 {
-	//attempt to retrieve record of user with given login
-	std::string criteria = "Username='"+usernm+"' AND Password='"+pass+"'";
-	std::string record = db.retrieveRecord("Users", criteria);
-	std::cout << "RECORD: " << record << std::endl;
-    	// if no record of user than fail (if empty), if not get user ID and role
-	if(record.empty() == false){
-		
-		std::stringstream recordSS(record);
-		std::string ID, username, password, role;
-		
-		// parse the record to get user attributes	
-		std::getline(recordSS, ID, ',');
-		std::getline(recordSS, username, ',');
-		std::getline(recordSS, password, ',');
-		std::getline(recordSS, role, ',');
-		
-		// get rid of whitespace of role (code taken from geeksforgeeks.org)
-		int l = role.length();
-		int c = count(role.begin(), role.end(), ' ');
-		remove(role.begin(), role.end(), ' ');
-		role.resize(l-c);
+    // attempt to retrieve record of user with given login
+    std::string criteria =
+        "Username='" + usernm + "' AND Password='" + pass + "'";
+    std::string record = db.retrieveRecord("Users", criteria);
+    // std::cout << "RECORD: " << record << std::endl;
 
-		// set id of user
-		userID = std::stoi(ID);
+    // if no record of user than fail (if empty), if not get user ID and role
+    if (record.empty() == false) {
 
-		// set role of user
-		if(role == "admin" || role == "Admin")
-			userRole = passMang::Role::Admin;
-		else if(role == "regular" || role == "Regular")
-			userRole = passMang::Role::Regular;
-		else
-			userRole = passMang::Role::ViewOnly;
-		
-		std::cout << "USER ID: " << userID << std::endl;
-		std::cout << "ROLE: " << role << std::endl;	
-		// update the last login time
-		
+        std::stringstream recordSS(record);
+        std::string ID, username, password, role;
 
-		return true;
-	}
-	else
-		return false;
+        // parse the record to get user attributes
+        std::getline(recordSS, ID, ',');
+        std::getline(recordSS, username, ',');
+        std::getline(recordSS, password, ',');
+        std::getline(recordSS, role, ',');
 
+        // get rid of whitespace of role (code taken from geeksforgeeks.org)
+        for (int i = 0; i < role.length(); i++) {
+            if (role[i] == ' ') {
+                role.erase(role.begin() + i);
+                i--;
+            }
+        }
 
-  
-/*
-// need to incorporate link to actual database of passwords/usernames so
-    // just test here, sets the role of the user based on login
-    if (usernm == "admin" && pass == "password") {
-        userRole = passMang::Role::Admin;
+        // set id of user
+        userID = std::stoi(ID);
+
+        // set role of user
+        if (role == "admin" || role == "Admin")
+            userRole = passMang::Role::Admin;
+        else if (role == "regular" || role == "Regular")
+            userRole = passMang::Role::Regular;
+        else
+            userRole = passMang::Role::ViewOnly;
+
+        // update the last login time (code taken from model team and
+        // geeksforgeeks.org)
+        std::chrono::system_clock::time_point update =
+            std::chrono::system_clock::now();
+        std::time_t currentTime = std::chrono::system_clock::to_time_t(update);
+
+        struct tm* localtime = std::localtime(&currentTime);
+
+        char time[50];
+        std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
+
+        std::cout << "UPDATED TIME: " << time << std::endl;
+
+        // define data and criteria for user update
+        std::string timeCriteria = "UserID=" + ID;
+        std::string data = "LastLogin='" + std::string(time) + "'";
+
+        // update database with new login time for user
+        db.UpdateRecord("Users", data, timeCriteria);
+
         return true;
-    } else if (usernm == "viewonly" && pass == "password") {
-        userRole = passMang::Role::ViewOnly;
-        return true;
-    } else if (usernm == "regular" && pass == "password") {
-        userRole = passMang::Role::Regular;
-        return true;
-    } else {
+    } else
         return false;
-    }
-*/
 }
 
 void
@@ -197,8 +199,6 @@ passMangApp::onInternalPathChange()
         resultSearchFailure();
     else
         showHomeScreen();
-
-    // if(internalPath() == "/"
 }
 
 void
