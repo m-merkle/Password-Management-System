@@ -2,12 +2,19 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle,jathur, 12/3/2024
- * Reference:
+ * mmerkle,jathur 12/5/2024
+ * References:
  * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
+ * https://www.geeksforgeeks.org/c-program-remove-spaces-string
+ * https://akh1l.hashnode.dev/stringstream-and-getline-in-cpp
+ * https://www.geeksforgeeks.org/strftime-function-in-c
  */
-
+#include <chrono>
+#include <ctime>
+#include <iostream>
 #include <memory>
+#include <sstream>
+#include <string>
 #include <utility>
 
 #include <Wt/WApplication.h>
@@ -17,19 +24,26 @@
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
 
-// add files for views here eventually
+#include "passMangApp.h"
+
+// files from view
 #include "addCredentialView.h"
 #include "addUserView.h"
-#include "passMangApp.h"
 #include "searchCredView.h"
 #include "searchUserView.h"
 #include "statusView.h"
 
+// files from model
+#include "Database.h"
+#include "User.h"
+#include "userType.h"
+
 using namespace Wt;
 
 passMangApp::passMangApp(const WEnvironment& env) :
-    WApplication(env), appName("Password Manager")
+    WApplication(env), db("model/Passmang.db"), appName("Password Manager")
 {
+
     setTitle(appName);
 
     // add CSS theme eventually
@@ -81,20 +95,17 @@ passMangApp::userLogin()
     // add container to content
     content->addWidget(std::move(loginContainer));
 
-    // create temp variable to track the number of error messages created
-    int tempCount = 0;
-
     // validate login once clicked (convert wstring to std::string with .toUTF8
     // method)
-    loginButton->clicked().connect([this, usernameIn, passwordIn, &tempCount] {
+    loginButton->clicked().connect([this, usernameIn, passwordIn] {
         if (checkLogin(usernameIn->text().toUTF8(),
                        passwordIn->text().toUTF8())) {
             // show home screen once validated
             showHomeScreen();
         } else {
-            if (tempCount == 0) {
+            if (invalidCount == 0) {
                 content->addWidget(std::make_unique<WText>("Invalid Login"));
-                tempCount = tempCount + 1;
+                invalidCount++;
             }
         }
     });
@@ -103,20 +114,66 @@ passMangApp::userLogin()
 bool
 passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 {
-    // need to incorporate link to actual database of passwords/usernames so
-    // just test here, sets the role of the user based on login
-    if (usernm == "admin" && pass == "password") {
-        userRole = passMang::Role::Admin;
+    // attempt to retrieve record of user with given login
+    std::string criteria =
+        "Username='" + usernm + "' AND Password='" + pass + "'";
+    std::string record = db.retrieveRecord("Users", criteria);
+    // std::cout << "RECORD: " << record << std::endl;
+
+    // if no record of user than fail (if empty), if not get user ID and role
+    if (record.empty() == false) {
+
+        std::stringstream recordSS(record);
+        std::string ID, username, password, role;
+
+        // parse the record to get user attributes
+        std::getline(recordSS, ID, ',');
+        std::getline(recordSS, username, ',');
+        std::getline(recordSS, password, ',');
+        std::getline(recordSS, role, ',');
+
+        // get rid of whitespace of role (code taken from geeksforgeeks.org)
+        for (int i = 0; i < role.length(); i++) {
+            if (role[i] == ' ') {
+                role.erase(role.begin() + i);
+                i--;
+            }
+        }
+
+        // set id of user
+        userID = std::stoi(ID);
+
+        // set role of user
+        if (role == "admin" || role == "Admin")
+            userRole = passMang::Role::Admin;
+        else if (role == "regular" || role == "Regular")
+            userRole = passMang::Role::Regular;
+        else
+            userRole = passMang::Role::ViewOnly;
+
+        // update the last login time (code taken from model team and
+        // geeksforgeeks.org)
+        std::chrono::system_clock::time_point update =
+            std::chrono::system_clock::now();
+        std::time_t currentTime = std::chrono::system_clock::to_time_t(update);
+
+        struct tm* localtime = std::localtime(&currentTime);
+
+        char time[50];
+        std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
+
+        std::cout << "UPDATED TIME: " << time << std::endl;
+
+        // define data and criteria for user update
+        std::string timeCriteria = "UserID=" + ID;
+        std::string data = "LastLogin='" + std::string(time) + "'";
+
+        // update database with new login time for user
+        db.UpdateRecord("Users", data, timeCriteria);
+
         return true;
-    } else if (usernm == "viewonly" && pass == "password") {
-        userRole = passMang::Role::ViewOnly;
-        return true;
-    } else if (usernm == "regular" && pass == "password") {
-        userRole = passMang::Role::Regular;
-        return true;
-    } else {
+    } else
         return false;
-    }
 }
 
 void
@@ -142,8 +199,6 @@ passMangApp::onInternalPathChange()
         resultSearchFailure();
     else
         showHomeScreen();
-
-    // if(internalPath() == "/"
 }
 
 void
