@@ -2,13 +2,14 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle,jathur, 12/3/2024
+ * mmerkle,jathur 12//2024
  * Reference:
  * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
  */
-
+#include <iostream>
 #include <memory>
 #include <utility>
+#include <string>
 
 #include <Wt/WApplication.h>
 #include <Wt/WBreak.h>
@@ -17,19 +18,26 @@
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
 
-// add files for views here eventually
+#include "passMangApp.h"
+
+//files from view
 #include "addCredentialView.h"
 #include "addUserView.h"
-#include "passMangApp.h"
 #include "searchCredView.h"
 #include "searchUserView.h"
 #include "statusView.h"
 
+//files from model
+#include "Database.h"
+#include "User.h"
+#include "userType.h"
+
 using namespace Wt;
 
 passMangApp::passMangApp(const WEnvironment& env) :
-    WApplication(env), appName("Password Manager")
+    WApplication(env), db("model/Passmang.db"), appName("Password Manager")
 {
+    
     setTitle(appName);
 
     // add CSS theme eventually
@@ -83,27 +91,39 @@ passMangApp::userLogin()
 
     // create temp variable to track the number of error messages created
     int tempCount = 0;
-
+    
     // validate login once clicked (convert wstring to std::string with .toUTF8
     // method)
-    loginButton->clicked().connect([this, usernameIn, passwordIn, &tempCount] {
+    loginButton->clicked().connect([this, usernameIn, passwordIn] {
         if (checkLogin(usernameIn->text().toUTF8(),
                        passwordIn->text().toUTF8())) {
             // show home screen once validated
             showHomeScreen();
         } else {
-            if (tempCount == 0) {
-                content->addWidget(std::make_unique<WText>("Invalid Login"));
-                tempCount = tempCount + 1;
-            }
-        }
+		if (invalidCount == 0) {
+                	content->addWidget(std::make_unique<WText>("Invalid Login"));
+                	invalidCount++;
+            	}
+        	}
     });
 }
 
 bool
 passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 {
-    // need to incorporate link to actual database of passwords/usernames so
+	//attempt to retrieve record of user with given login
+	std::string criteria = "Username='"+usernm+"' AND Password='"+pass+"'";
+	std::string record = db.retrieveRecord("Users", criteria);
+
+	if(record.empty() == false)
+		return true;
+	else
+		return false;
+
+
+  
+/*
+// need to incorporate link to actual database of passwords/usernames so
     // just test here, sets the role of the user based on login
     if (usernm == "admin" && pass == "password") {
         userRole = passMang::Role::Admin;
@@ -117,6 +137,7 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
     } else {
         return false;
     }
+*/
 }
 
 void
