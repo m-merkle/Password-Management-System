@@ -2,14 +2,17 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle,jathur 12//2024
- * Reference:
+ * mmerkle,jathur 12/5/2024
+ * References:
  * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
+ * https://www.geeksforgeeks.org/remove-spaces-from-a-given-string
+ * https://akh1l.hashnode.dev/stringstream-and-getline-in-cpp 
  */
 #include <iostream>
 #include <memory>
 #include <utility>
 #include <string>
+#include <sstream>
 
 #include <Wt/WApplication.h>
 #include <Wt/WBreak.h>
@@ -89,9 +92,6 @@ passMangApp::userLogin()
     // add container to content
     content->addWidget(std::move(loginContainer));
 
-    // create temp variable to track the number of error messages created
-    int tempCount = 0;
-    
     // validate login once clicked (convert wstring to std::string with .toUTF8
     // method)
     loginButton->clicked().connect([this, usernameIn, passwordIn] {
@@ -114,9 +114,43 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 	//attempt to retrieve record of user with given login
 	std::string criteria = "Username='"+usernm+"' AND Password='"+pass+"'";
 	std::string record = db.retrieveRecord("Users", criteria);
+	std::cout << "RECORD: " << record << std::endl;
+    	// if no record of user than fail (if empty), if not get user ID and role
+	if(record.empty() == false){
+		
+		std::stringstream recordSS(record);
+		std::string ID, username, password, role;
+		
+		// parse the record to get user attributes	
+		std::getline(recordSS, ID, ',');
+		std::getline(recordSS, username, ',');
+		std::getline(recordSS, password, ',');
+		std::getline(recordSS, role, ',');
+		
+		// get rid of whitespace of role (code taken from geeksforgeeks.org)
+		int l = role.length();
+		int c = count(role.begin(), role.end(), ' ');
+		remove(role.begin(), role.end(), ' ');
+		role.resize(l-c);
 
-	if(record.empty() == false)
+		// set id of user
+		userID = std::stoi(ID);
+
+		// set role of user
+		if(role == "admin" || role == "Admin")
+			userRole = passMang::Role::Admin;
+		else if(role == "regular" || role == "Regular")
+			userRole = passMang::Role::Regular;
+		else
+			userRole = passMang::Role::ViewOnly;
+		
+		std::cout << "USER ID: " << userID << std::endl;
+		std::cout << "ROLE: " << role << std::endl;	
+		// update the last login time
+		
+
 		return true;
+	}
 	else
 		return false;
 
