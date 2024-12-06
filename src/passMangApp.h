@@ -52,7 +52,7 @@ class passMangApp : public WApplication
     bool navCreated = false;
     int invalidCount = 0;
     passMang::Role userRole;
-    int userID;
+    std::string userID;
 };
 
 #endif /* PASSMANGAPP_H */

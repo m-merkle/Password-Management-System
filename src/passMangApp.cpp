@@ -23,6 +23,7 @@
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
+#include <Wt/WGroupBox.h>
 
 #include "passMangApp.h"
 
@@ -140,8 +141,8 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
             }
         }
 
-        // set id of user
-        userID = std::stoi(ID);
+        // set id of user (keep string so easier to use throughout application)
+        userID = ID;
 
         // set role of user
         if (role == "admin" || role == "Admin")
