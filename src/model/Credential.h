@@ -48,9 +48,9 @@ class Credential
     {
         Wt::Dbo::field(a, credID, "credID");
         Wt::Dbo::field(a, credName, "credName");
-        Wt::Dbo::field(a, email, "email");
         Wt::Dbo::field(a, username, "username");
         Wt::Dbo::field(a, password, "password");
+        Wt::Dbo::field(a, email, "email");
         Wt::Dbo::field(a, description, "description");
     }
 
