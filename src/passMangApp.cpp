@@ -9,6 +9,7 @@
  * https://akh1l.hashnode.dev/stringstream-and-getline-in-cpp
  * https://www.geeksforgeeks.org/strftime-function-in-c
  */
+
 #include <chrono>
 #include <ctime>
 #include <iostream>
@@ -163,7 +164,7 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
         char time[50];
         std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
 
-        std::cout << "UPDATED TIME: " << time << std::endl;
+        //std::cout << "UPDATED TIME: " << time << std::endl;
 
         // define data and criteria for user update
         std::string timeCriteria = "UserID=" + ID;
@@ -283,36 +284,45 @@ passMangApp::showHomeScreen()
     
     // parse records retrieved
     std::stringstream credentialSS(userCreds);
-    std::string credID, name, username, password, email, descrip, lastLogin, uID, nextCredID;
-
+    std::string credID, name, username, password, email, descrip, lastChange, uID;
+    
     while(std::getline(credentialSS, credID, ',')){
+	
+	// if end of string then stop the loop (prevents copy of last cred added)
+	if(credentialSS.eof()){
+		break;    		
+	}
 
-    	// parse the record to get user attributes
+	// parse the record to get user attributes
    	std::getline(credentialSS, name, ',');
    	std::getline(credentialSS, username, ',');
    	std::getline(credentialSS, password, ',');
    	std::getline(credentialSS, email, ',');
    	std::getline(credentialSS, descrip, ',');
-   	std::getline(credentialSS, lastLogin, ',');
+   	std::getline(credentialSS, lastChange, ',');
    	
-	// must handle the space seperating the userID and the next records
-	std::getline(credentialSS, uID, ' ');
-	// check to see if another credential record
-	if(std::getline(credentialSS, nextCredID, ',')) {
-	}
-	else{
-		// if not another credential record then make next credID empty
-		nextCredID = "";
-	}
-
-	std::string credDisplay = "Credential ID: "+credID+"  Name: "+name+"  Username: "+username+"  Password: "+password+
-	"  Email: "+email+"  Description: "+descrip+"  Last Edit: "+lastLogin+"  User ID: "+uID;
+	// must handle the period seperating the userID and the next record
+	std::getline(credentialSS, uID, '.');
 	
-	//std::string credDisplay = userCreds;
-
-	// add credentials to cred box
-    	auto userCredsContent = std::make_unique<Wt::WText>("<p>"+credDisplay+"</p>");
-    	credBox->addWidget(std::move(userCredsContent));
+	// add credential to credential box
+	credBox->addWidget(std::make_unique<Wt::WText>("Credential ID: "+credID));
+	credBox->addWidget(std::make_unique<WBreak>());
+	credBox->addWidget(std::make_unique<Wt::WText>("Name: "+name));
+	credBox->addWidget(std::make_unique<WBreak>());
+	credBox->addWidget(std::make_unique<Wt::WText>("Username: "+username));
+	credBox->addWidget(std::make_unique<WBreak>());
+	credBox->addWidget(std::make_unique<Wt::WText>("Password: "+password));
+	credBox->addWidget(std::make_unique<WBreak>());
+	credBox->addWidget(std::make_unique<Wt::WText>("Email: "+email));
+	credBox->addWidget(std::make_unique<WBreak>());
+	credBox->addWidget(std::make_unique<Wt::WText>("Description: "+descrip));
+	credBox->addWidget(std::make_unique<WBreak>());
+	credBox->addWidget(std::make_unique<Wt::WText>("Last Changed: "+lastChange));
+	credBox->addWidget(std::make_unique<WBreak>());
+	credBox->addWidget(std::make_unique<Wt::WText>("User ID: "+uID));
+	credBox->addWidget(std::make_unique<WBreak>());
+	credBox->addWidget(std::make_unique<Wt::WText>("-------------------------------------"));
+	credBox->addWidget(std::make_unique<WBreak>());
     }
     
     content->addWidget(std::move(credBox));
