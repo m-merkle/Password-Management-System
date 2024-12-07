@@ -3,9 +3,9 @@
 #mmerkle, 12/5/2024
 
 PROG=app
-PORT=8094
+PORT=8096
 SRCS=main.cpp passMangApp.cpp \
-       UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp searchCredView.cpp searchUserView.cpp statusView.cpp \
+       UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp searchCredView.cpp searchUserView.cpp statusView.cpp editCredentialView.cpp \
        userType.cpp Database.cpp User.cpp Credential.cpp \
        
 OBJS=${SRCS:S/cpp$/o/g}
@@ -36,6 +36,7 @@ addCredentialView.o: view/addCredentialView.h view/addCredentialView.cpp passMan
 searchCredView.o: view/searchCredView.h view/searchCredView.cpp
 searchUserView.o: view/searchUserView.h view/searchUserView.cpp
 statusView.o: view/statusView.h view/statusView.cpp
+editCredentialView.o: view/editCredentialView.h view/editCredentialView.cpp #model/CredentialList.h
 
 # utilities
 clean:
