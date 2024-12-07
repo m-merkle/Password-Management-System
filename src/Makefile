@@ -1,19 +1,19 @@
 #Password Manager - Witty Application
 #Makefile
-#mmerkle, 11/15/2024
+#mmerkle, 12/5/2024
 
 PROG=app
-PORT=8096
+PORT=8094
 SRCS=main.cpp passMangApp.cpp \
        UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp searchCredView.cpp searchUserView.cpp statusView.cpp \
-       userType.cpp  #Credential.cpp User.cpp userType.cpp \
+       userType.cpp Database.cpp User.cpp Credential.cpp \
        
 OBJS=${SRCS:S/cpp$/o/g}
 
 CXXFLAGS=-Wall -std=c++17 -g
 CXXFLAGS+=-I/usr/local/include -I${.CURDIR}/model -I${.CURDIR}/view
 LDFLAGS=-L/usr/local/lib
-LDFLAGS+=-lwthttp -lwt
+LDFLAGS+=-lwthttp -lwt -lsqlite3
 
 .PHONY: all clean start stop
 
@@ -24,8 +24,10 @@ ${PROG}: ${OBJS}
 
 # model
 #cred.o: model/Credential.cpp model/Credential.h
-#user.o: model/User.cpp model/User.h model/userType.h
+Database.o: model/Database.cpp model/Database.h model/
+User.o: model/User.cpp model/User.h model/userType.h
 userType.o: model/userType.cpp model/userType.h
+Credential.o: model/Credential.cpp model/Credential.h
 
 # views
 UserForm.o: view/UserForm.h view/UserForm.cpp #model/UserList.h

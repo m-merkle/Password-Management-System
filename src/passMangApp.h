@@ -7,6 +7,8 @@
 
 // must include this file to use the Role enum
 #include "userType.h"
+// must include this file to access Database object
+#include "Database.h"
 
 #include <string>
 
@@ -43,11 +45,14 @@ class passMangApp : public WApplication
     void searchUser();
     void resultSearchFailure();
 
+    Database db;
     std::string appName;
     WContainerWidget* content;
     WContainerWidget* navigation;
     bool navCreated = false;
+    int invalidCount = 0;
     passMang::Role userRole;
+    int userID;
 };
 
 #endif /* PASSMANGAPP_H */
