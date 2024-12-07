@@ -215,6 +215,51 @@ passMangApp::showHomeScreen()
     content->addWidget(std::make_unique<WBreak>());
     content->addWidget(std::make_unique<WBreak>());
     content->addWidget(std::move(welcomeText));
+    content->addWidget(std::make_unique<WBreak>());
+    content->addWidget(std::make_unique<WBreak>());
+    
+    // create container for credentials
+    auto credBox = std::make_unique<Wt::WGroupBox>("Your Credentials");
+    
+    // get all credentials for current user (based on user ID)
+    std::string criteria = "userid="+userID;
+    std::string userCreds = db.retrieveRecord("Credentials", criteria);
+    
+    // parse records retrieved
+    std::stringstream credentialSS(userCreds);
+    std::string credID, name, username, password, email, descrip, lastLogin, uID, nextCredID;
+
+    while(std::getline(credentialSS, credID, ',')){
+
+    	// parse the record to get user attributes
+   	std::getline(credentialSS, name, ',');
+   	std::getline(credentialSS, username, ',');
+   	std::getline(credentialSS, password, ',');
+   	std::getline(credentialSS, email, ',');
+   	std::getline(credentialSS, descrip, ',');
+   	std::getline(credentialSS, lastLogin, ',');
+   	
+	// must handle the space seperating the userID and the next records
+	std::getline(credentialSS, uID, ' ');
+	// check to see if another credential record
+	if(std::getline(credentialSS, nextCredID, ',')) {
+	}
+	else{
+		// if not another credential record then make next credID empty
+		nextCredID = "";
+	}
+
+	std::string credDisplay = "Credential ID: "+credID+"  Name: "+name+"  Username: "+username+"  Password: "+password+
+	"  Email: "+email+"  Description: "+descrip+"  Last Edit: "+lastLogin+"  User ID: "+uID;
+	
+	//std::string credDisplay = userCreds;
+
+	// add credentials to cred box
+    	auto userCredsContent = std::make_unique<Wt::WText>("<p>"+credDisplay+"</p>");
+    	credBox->addWidget(std::move(userCredsContent));
+    }
+    
+    content->addWidget(std::move(credBox));
 }
 
 void
