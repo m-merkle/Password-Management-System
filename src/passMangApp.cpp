@@ -350,7 +350,7 @@ void
 passMangApp::addCredential()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<addCredentialView>());
+    content->addWidget(std::make_unique<addCredentialView>(userID, db));
 }
 
 void

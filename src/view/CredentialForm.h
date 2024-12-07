@@ -2,15 +2,13 @@
  * Password Manager - Witty Application
  *
  * View - Credential form
- * jathur, 11/19/2024
+ * jathur, momerk 12/7/2024
  */
 
 #include <Wt/WComboBox.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
-
-// #include "CredentialList.h"
 
 #ifndef CREDENTIALFORM_H
 #define CREDENTIALFORM_H
@@ -21,16 +19,15 @@ class CredentialForm : public WContainerWidget
 {
   public:
     // CredentialForm() = delete;
-    CredentialForm(); // explicit CredentialForm(passMang::CredentialList& cl);
+    CredentialForm();
 
   protected:
-    // passMang::CredentialList& cl;
-
     WLineEdit* idEdit;
     WLineEdit* usernameEdit;
     WLineEdit* passwordEdit;
     WLineEdit* emailEdit;
     WLineEdit* credNameEdit;
+    WLineEdit* descriptionEdit;
     WPushButton* addButton;
     WPushButton* cancelButton;
 };
