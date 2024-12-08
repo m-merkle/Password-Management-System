@@ -49,6 +49,7 @@ passMangApp::passMangApp(const WEnvironment& env) :
 {
 
     setTitle(appName);
+    root()->setAttributeValue("style", "background-color: #FDF4DC;");
 
     // add CSS theme eventually
 
@@ -62,7 +63,7 @@ passMangApp::passMangApp(const WEnvironment& env) :
     createNavigationContainer();
 
     auto contentContainer = std::make_unique<WContainerWidget>();
-    // contentContainer->addStyleClass("");
+    contentContainer->setAttributeValue("style", "background-color: #FDF4DC;");
     content = contentContainer.get();
     root()->addWidget(std::move(contentContainer));
 
@@ -123,7 +124,9 @@ passMangApp::userLogin()
             showHomeScreen();
         } else {
             if (invalidCount == 0) {
-                content->addWidget(std::make_unique<WText>("Invalid Login"));
+	        auto invalidLoginText = std::make_unique<WText>("Invalid Login");
+		invalidLoginText->setAttributeValue("style", "background-color: #FF1F17; font-weight: bold;");
+		content->addWidget(std::move(invalidLoginText));
                 invalidCount++;
             }
         }
@@ -228,6 +231,7 @@ void
 passMangApp::createHeaderContainer()
 {
     auto header = std::make_unique<WContainerWidget>();
+    header->setAttributeValue("style", "background-color: #FDF4DC;");
     header->addWidget(std::make_unique<WText>("<h1>" + appName + "</h1>"));
     root()->addWidget(std::move(header));
 }
@@ -240,6 +244,7 @@ passMangApp::createNavigationContainer()
 
         // create navigation bar but clear contents (placeholder, fill later)
         navigation = root()->addWidget(std::make_unique<WContainerWidget>());
+	navigation->setAttributeValue("style", "background-color: #FDF4DC;");
         navigation->clear();
 
         // hide the navigation bar to start (since login page shown first)
