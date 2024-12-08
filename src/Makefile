@@ -11,7 +11,7 @@ SRCS=main.cpp passMangApp.cpp \
 OBJS=${SRCS:S/cpp$/o/g}
 
 CXXFLAGS=-Wall -std=c++17 -g
-CXXFLAGS+=-I/usr/local/include -I${.CURDIR}/model -I${.CURDIR}/view
+CXXFLAGS+=-I${.CURDIR} -I/usr/local/include -I${.CURDIR}/model -I${.CURDIR}/view
 LDFLAGS=-L/usr/local/lib
 LDFLAGS+=-lwthttp -lwt -lsqlite3
 
@@ -23,21 +23,20 @@ ${PROG}: ${OBJS}
 	${CXX} ${CXXFLAGS} -o $@ ${OBJS} ${LDFLAGS}
 
 # model
-#cred.o: model/Credential.cpp model/Credential.h
 Database.o: model/Database.cpp model/Database.h model/
 User.o: model/User.cpp model/User.h model/userType.h
 userType.o: model/userType.cpp model/userType.h
 Credential.o: model/Credential.cpp model/Credential.h
 
 # views
-UserForm.o: view/UserForm.h view/UserForm.cpp #model/UserList.h
-addUserView.o: view/addUserView.h view/addUserView.cpp #model/UserList.h
-CredentialForm.o: view/CredentialForm.h view/CredentialForm.cpp #model/CredentialList.h
-addCredentialView.o: view/addCredentialView.h view/addCredentialView.cpp #model/CredentialList.h
-searchCredView.o: view/searchCredView.h view/searchCredView.cpp #model/CredentialList.h
-searchUserView.o: view/searchUserView.h view/searchUserView.cpp #model/UserList.h
+UserForm.o: view/UserForm.h view/UserForm.cpp
+addUserView.o: view/addUserView.h view/addUserView.cpp
+CredentialForm.o: view/CredentialForm.h view/CredentialForm.cpp
+addCredentialView.o: view/addCredentialView.h view/addCredentialView.cpp
+searchCredView.o: view/searchCredView.h view/searchCredView.cpp
+searchUserView.o: view/searchUserView.h view/searchUserView.cpp
 statusView.o: view/statusView.h view/statusView.cpp
-editCredentialView.o: view/editCredentialView.h view/editCredentialView.cpp #model/CredentialList.h
+editCredentialView.o: view/editCredentialView.h view/editCredentialView.cpp
 
 # utilities
 clean:

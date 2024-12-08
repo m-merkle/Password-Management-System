@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle, jathur  12/3/2024
+ * mmerkle, jathur  12/7/2024
  */
 
 // must include this file to use the Role enum
@@ -53,7 +53,7 @@ class passMangApp : public WApplication
     bool navCreated = false;
     int invalidCount = 0;
     passMang::Role userRole;
-    int userID;
+    std::string userID;
 };
 
 #endif /* PASSMANGAPP_H */

@@ -2,13 +2,14 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle,jathur 12/5/2024
+ * mmerkle,jathur 12/7/2024
  * References:
  * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
  * https://www.geeksforgeeks.org/c-program-remove-spaces-string
  * https://akh1l.hashnode.dev/stringstream-and-getline-in-cpp
  * https://www.geeksforgeeks.org/strftime-function-in-c
  */
+
 #include <chrono>
 #include <ctime>
 #include <iostream>
@@ -20,6 +21,7 @@
 #include <Wt/WApplication.h>
 #include <Wt/WBreak.h>
 #include <Wt/WContainerWidget.h>
+#include <Wt/WGroupBox.h>
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
@@ -29,10 +31,10 @@
 // files from view
 #include "addCredentialView.h"
 #include "addUserView.h"
+#include "editCredentialView.h"
 #include "searchCredView.h"
 #include "searchUserView.h"
 #include "statusView.h"
-#include "editCredentialView.h"
 
 // files from model
 #include "Database.h"
@@ -141,8 +143,8 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
             }
         }
 
-        // set id of user
-        userID = std::stoi(ID);
+        // set id of user (keep string so easier to use throughout application)
+        userID = ID;
 
         // set role of user
         if (role == "admin" || role == "Admin")
@@ -163,7 +165,7 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
         char time[50];
         std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
 
-        std::cout << "UPDATED TIME: " << time << std::endl;
+        // std::cout << "UPDATED TIME: " << time << std::endl;
 
         // define data and criteria for user update
         std::string timeCriteria = "UserID=" + ID;
@@ -198,7 +200,7 @@ passMangApp::onInternalPathChange()
         searchUser();
     else if (internalPath() == "/search-failure")
         resultSearchFailure();
-    else if (internalPath() =="/edit-credential")
+    else if (internalPath() == "/edit-credential")
         editCredential();
     else
         showHomeScreen();
@@ -246,7 +248,8 @@ passMangApp::updateNavigation()
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
         navText += "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;";
         navText += "<a href='#/search-user'>Search Users</a>&nbsp;&nbsp;";
-        navText += "<a href='#/edit-credential'>Edit Credential</a>&nbsp;&nbsp;";
+        navText +=
+            "<a href='#/edit-credential'>Edit Credential</a>&nbsp;&nbsp;";
     } else if (userRole == passMang::Role::Regular) {
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
     }
@@ -274,6 +277,68 @@ passMangApp::showHomeScreen()
     content->addWidget(std::make_unique<WBreak>());
     content->addWidget(std::make_unique<WBreak>());
     content->addWidget(std::move(welcomeText));
+    content->addWidget(std::make_unique<WBreak>());
+    content->addWidget(std::make_unique<WBreak>());
+
+    // create container for credentials
+    auto credBox = std::make_unique<Wt::WGroupBox>("Your Credentials");
+
+    // get all credentials for current user (based on user ID)
+    std::string criteria = "userid=" + userID;
+    std::string userCreds = db.retrieveRecord("Credentials", criteria);
+
+    // parse records retrieved
+    std::stringstream credentialSS(userCreds);
+    std::string credID, name, username, password, email, descrip, lastChange,
+        uID;
+
+    while (std::getline(credentialSS, credID, ',')) {
+
+        // if end of string then stop the loop (prevents copy of last cred
+        // added)
+        if (credentialSS.eof()) {
+            break;
+        }
+
+        // parse the record to get cred attributes
+        std::getline(credentialSS, name, ',');
+        std::getline(credentialSS, username, ',');
+        std::getline(credentialSS, password, ',');
+        std::getline(credentialSS, email, ',');
+        std::getline(credentialSS, descrip, ',');
+        std::getline(credentialSS, lastChange, ',');
+
+        // must handle the period seperating the userID and the next record
+        std::getline(credentialSS, uID, '.');
+
+        // add credential to credential box
+        credBox->addWidget(
+            std::make_unique<Wt::WText>("Credential ID: " + credID));
+        credBox->addWidget(std::make_unique<WBreak>());
+        credBox->addWidget(std::make_unique<Wt::WText>("Name: " + name));
+        credBox->addWidget(std::make_unique<WBreak>());
+        credBox->addWidget(
+            std::make_unique<Wt::WText>("Username: " + username));
+        credBox->addWidget(std::make_unique<WBreak>());
+        credBox->addWidget(
+            std::make_unique<Wt::WText>("Password: " + password));
+        credBox->addWidget(std::make_unique<WBreak>());
+        credBox->addWidget(std::make_unique<Wt::WText>("Email: " + email));
+        credBox->addWidget(std::make_unique<WBreak>());
+        credBox->addWidget(
+            std::make_unique<Wt::WText>("Description: " + descrip));
+        credBox->addWidget(std::make_unique<WBreak>());
+        credBox->addWidget(
+            std::make_unique<Wt::WText>("Last Changed: " + lastChange));
+        credBox->addWidget(std::make_unique<WBreak>());
+        credBox->addWidget(std::make_unique<Wt::WText>("User ID: " + uID));
+        credBox->addWidget(std::make_unique<WBreak>());
+        credBox->addWidget(std::make_unique<Wt::WText>(
+            "-------------------------------------"));
+        credBox->addWidget(std::make_unique<WBreak>());
+    }
+
+    content->addWidget(std::move(credBox));
 }
 
 void
@@ -291,14 +356,14 @@ void
 passMangApp::addUser()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<addUserView>());
+    content->addWidget(std::make_unique<addUserView>(userID, db));
 }
 
 void
 passMangApp::addCredential()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<addCredentialView>());
+    content->addWidget(std::make_unique<addCredentialView>(userID, db));
 }
 
 void
@@ -321,7 +386,7 @@ void
 passMangApp::searchCredential()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<searchCredView>());
+    content->addWidget(std::make_unique<searchCredView>(db, userRole));
 }
 void
 passMangApp::editCredential()
@@ -333,7 +398,7 @@ void
 passMangApp::searchUser()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<searchUserView>());
+    content->addWidget(std::make_unique<searchUserView>(db, userRole));
 }
 
 void

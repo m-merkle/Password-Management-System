@@ -89,7 +89,10 @@ Database::retrieveRecord(const std::string& table, const std::string& criteria)
             if (i < cols - 1) {
                 record += ", ";
             }
-        }
+            else{
+		record += ".";
+	    }
+	}
         record += "\n";
     }
 

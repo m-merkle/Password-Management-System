@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * View - Credential form
- * jathur, 11/19/2024
+ * jathur, momerk  12/7/2024
  */
 
 #include <memory>
@@ -44,6 +44,11 @@ CredentialForm::CredentialForm()
 
     addWidget(std::make_unique<WText>("Credential Name: "));
     credNameEdit = addWidget(std::make_unique<WLineEdit>());
+
+    addWidget(std::make_unique<WBreak>());
+
+    addWidget(std::make_unique<WText>("Description: "));
+    descriptionEdit = addWidget(std::make_unique<WLineEdit>());
 
     addWidget(std::make_unique<WBreak>());
 
