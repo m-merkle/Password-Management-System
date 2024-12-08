@@ -1,0 +1,14 @@
+Date: 09/24/2024
+
+Attendees: Tristen, Cameron, Andrew, Carson, Dakota, Sai
+
+Items Discussed:
+- How often to have group meetings
+- Distributed the rest of the work for SRS document
+- What information needed to be included in the next standup meeitng
+
+Decisions Made:
+- Meet once a week at a minimum
+
+Action Items:
+- Prepare draft version of reuqirements by 09/25/2024

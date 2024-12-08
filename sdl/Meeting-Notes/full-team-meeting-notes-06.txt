@@ -1,0 +1,12 @@
+Date: 10/15/2024
+
+Attendees: Chhavi, Andrew, Montana, Miguel, Cameron
+
+Items Discussed:
+- SRS Revisions
+
+Decisions Made:
+- Finialize SRS document
+
+Action Items:
+- Send copy of the SRS document to Dr. Jerkins
