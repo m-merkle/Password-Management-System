@@ -1,0 +1,13 @@
+Date: 11/07/2024
+
+Attendees: Dakota, Andrew, Carson, Jagger, Montana, Chhavi
+
+Items Discussed:
+- Fork and clone the git repo onto all group members local devices
+- What header files needed to be worked on based off the UML diagram
+
+Decisions Made:
+- Who would work on specific header files
+
+Action Items:
+- N/A

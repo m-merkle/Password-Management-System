@@ -1,0 +1,13 @@
+Date: 10/01/2024
+
+Attendees: Cameron, Andrew, Tristen, Carson, Dakota, Sai
+
+Items Discussed:
+- SRS document revisions
+- Project scope and features are finished
+
+Decisions Made:
+- N/A
+
+Action Items:
+- Update product feature section

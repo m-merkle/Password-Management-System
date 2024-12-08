@@ -1,0 +1,13 @@
+Date: 10/29/2024
+
+Attendees: Cameron, Dakota, Andrew, Carson
+
+Items Discussed:
+- How far along the design document is
+- How many sections are finished and what else we need to finish the design document
+
+Decisions Made:
+- Decided we need to finish the system overview section
+
+Action Items: 
+- N/A

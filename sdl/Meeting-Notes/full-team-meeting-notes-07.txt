@@ -1,0 +1,12 @@
+Date: 10/21/2024
+
+Attendees: Chhavi, Dakota, Andrew, Tristen
+
+Items Discussed:
+- Database team should complete the E-R diagram
+
+Decisions Made: 
+- N/A
+
+Action Items:
+- N/A

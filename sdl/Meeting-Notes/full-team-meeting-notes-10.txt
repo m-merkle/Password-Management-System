@@ -1,0 +1,17 @@
+Date: 11/20/2024
+
+Attendees: All
+
+Items Discussed: 
+- Created a to-do list of priority classes to create
+	- Credential List test
+	- Database class
+		- Class that can speak to the database
+	- Login Page
+	- Getters and Setters for credentials and users
+
+Decisions Made: 
+- N/A
+ 
+Action Items:
+- N/A

@@ -1,0 +1,17 @@
+Date: 09/18/2024
+
+Attendees: All
+
+Items Discussed: 
+- Team Communication method 
+- Meeting medium (in person AND/OR video calls)
+- Plan of attack for rough draft and project requirements
+
+Decisions Made: 
+- Using discord as primary form of communication
+- Set up discord channel
+- In person meeting days will be Mondays and Tuesdays
+- Draft of the project will be done on discord and Monday if needed
+
+Action Items: 
+- Perpare draft version of requirement by 09/25/2024
