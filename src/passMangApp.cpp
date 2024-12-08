@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle,jathur 12/5/2024
+ * mmerkle,jathur 12/7/2024
  * References:
  * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
  * https://www.geeksforgeeks.org/c-program-remove-spaces-string
@@ -297,7 +297,7 @@ passMangApp::showHomeScreen()
 		break;    		
 	}
 
-	// parse the record to get user attributes
+	// parse the record to get cred attributes
    	std::getline(credentialSS, name, ',');
    	std::getline(credentialSS, username, ',');
    	std::getline(credentialSS, password, ',');
@@ -389,7 +389,7 @@ void
 passMangApp::searchUser()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<searchUserView>());
+    content->addWidget(std::make_unique<searchUserView>(db, userRole));
 }
 
 void

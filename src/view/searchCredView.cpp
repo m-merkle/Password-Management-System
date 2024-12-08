@@ -80,9 +80,6 @@ searchCredView::searchCredView(Database& db, passMang::Role userRole) : db(db), 
 	// add cred box to view
 	addWidget(std::move(credBox));	
     }	
-
-    
-
 }
 
 void

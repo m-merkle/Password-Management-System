@@ -2,11 +2,11 @@
  * Password Manager - Witty Application
  *
  * View - Search Users
- * momerk, 11/25/2024
+ * momerk, 12/7/2024
  */
 
-// eventually include user list to actually search
-// #include UserList.h
+#include "userType.h"
+#include "Database.h"
 #include "UserForm.h"
 
 #ifndef SEARCHUSERVIEW_H
@@ -16,11 +16,12 @@ class searchUserView : public UserForm
 {
   public:
     // searchUserView() = delete;
-    searchUserView();
-    // explicit searchUserView(passMang::UserList& ul);
+    searchUserView(Database& db, passMang::Role userRole);
 
   private:
     void searchUser();
+    Database& db;
+    passMang::Role userRole;
 };
 
 #endif /* SEARCHUSERVIEW_H */

@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle, jathur  12/3/2024
+ * mmerkle, jathur  12/7/2024
  */
 
 // must include this file to use the Role enum
