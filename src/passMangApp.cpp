@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * Password Manager Application
- * mmerkle,jathur 12/7/2024
+ * mmerkle,jathur,cawhee 12/8/2024
  * References:
  * https://stackoverflow.com/questions/42463871/how-to-put-spaces-between-text-in-html
  * https://www.geeksforgeeks.org/c-program-remove-spaces-string
@@ -79,22 +79,37 @@ passMangApp::userLogin()
     assert(content != nullptr);
 
     auto loginContainer = std::make_unique<WContainerWidget>();
+    loginContainer->setAttributeValue("style", "padding: 20px; background-color: #B50404; border: 1px solid #ddd; border-radius: 5px width: 300px; margin: auto;");
 
     // create label and username line
-    loginContainer->addWidget(std::make_unique<WText>("Username: "));
+    auto usernameText = loginContainer->addWidget(std::make_unique<WText>("Username: "));
+    usernameText->setAttributeValue("style", "font-weight: bold; margin: auto;");
+
     auto usernameIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
+    usernameIn->setAttributeValue("style", "width: 30%; padding: 5px; margin-bottom: 10px; margin: auto;");
+    
 
     loginContainer->addWidget(std::make_unique<WBreak>());
 
     // create label and password line
-    loginContainer->addWidget(std::make_unique<WText>("Password: "));
+    auto passwordText = loginContainer->addWidget(std::make_unique<WText>("Password: "));
+    passwordText->setAttributeValue("style", "font-weight: bold; margin: auto;");
+
     auto passwordIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
+    passwordIn->setAttributeValue("style", "width: 30%; padding: 5px; margin-bottom: 10px; margin: auto;");
 
     loginContainer->addWidget(std::make_unique<WBreak>());
 
     // create login button
     auto loginButton =
         loginContainer->addWidget(std::make_unique<WPushButton>("Login"));
+    loginButton->setAttributeValue("style", "background-color: #056B01;");
+    loginButton->mouseWentOver().connect([=] {
+		    loginButton->setAttributeValue("style", "background-color: #0FD108;");
+		    });
+    loginButton->mouseWentOut().connect([=] {
+		    loginButton->setAttributeValue("style", "background-color: #056B01;");
+		    });
 
     // add container to content
     content->addWidget(std::move(loginContainer));
@@ -257,9 +272,9 @@ passMangApp::updateNavigation()
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
     }
 
-    auto t = std::make_unique<WText>(navText);
-    t->setInternalPathEncoding(true);
-    navigation->addWidget(std::move(t));
+    auto navLink = std::make_unique<WText>(navText);
+    navLink->setInternalPathEncoding(true);
+    navigation->addWidget(std::move(navLink));
 
     // show after updated navigation (only called after login)
     navigation->show();
