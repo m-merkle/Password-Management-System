@@ -35,6 +35,7 @@
 #include "searchCredView.h"
 #include "searchUserView.h"
 #include "statusView.h"
+#include "editUserView.h"
 
 // files from model
 #include "Database.h"
@@ -202,6 +203,8 @@ passMangApp::onInternalPathChange()
         resultSearchFailure();
     else if (internalPath() == "/edit-credential")
         editCredential();
+    else if (internalPath() =="/edit-user")
+        editUser();
     else
         showHomeScreen();
 }
@@ -248,8 +251,8 @@ passMangApp::updateNavigation()
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
         navText += "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;";
         navText += "<a href='#/search-user'>Search Users</a>&nbsp;&nbsp;";
-        navText +=
-            "<a href='#/edit-credential'>Edit Credential</a>&nbsp;&nbsp;";
+        navText += "<a href='#/edit-credential'>Edit Credential</a>&nbsp;&nbsp;";
+        navText += "<a href='#/edit-user'>Edit User</a>&nbsp;&nbsp;";
     } else if (userRole == passMang::Role::Regular) {
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
     }
@@ -400,7 +403,12 @@ passMangApp::searchUser()
     assert(content != nullptr);
     content->addWidget(std::make_unique<searchUserView>(db, userRole));
 }
-
+void
+passMangApp::editUser()
+{
+    assert(content != nullptr);
+    content->addWidget(std::make_unique<editUserView>());
+}
 void
 passMangApp::resultSearchFailure()
 {
