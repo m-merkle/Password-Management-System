@@ -5,15 +5,15 @@
 PROG=app
 PORT=8096
 SRCS=main.cpp passMangApp.cpp \
-       UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp searchCredView.cpp searchUserView.cpp statusView.cpp editCredentialView.cpp \
-       userType.cpp Database.cpp User.cpp Credential.cpp \
+       UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp searchCredView.cpp searchUserView.cpp statusView.cpp editCredentialView.cpp editUserView.cpp\
+       userType.cpp Database.cpp User.cpp Credential.cpp HashClass.cpp \
        
 OBJS=${SRCS:S/cpp$/o/g}
 
 CXXFLAGS=-Wall -std=c++17 -g
 CXXFLAGS+=-I${.CURDIR} -I/usr/local/include -I${.CURDIR}/model -I${.CURDIR}/view
 LDFLAGS=-L/usr/local/lib
-LDFLAGS+=-lwthttp -lwt -lsqlite3
+LDFLAGS+=-lwthttp -lwt -lsqlite3 -lssl -lcrypto
 
 .PHONY: all clean start stop
 
@@ -27,6 +27,7 @@ Database.o: model/Database.cpp model/Database.h model/
 User.o: model/User.cpp model/User.h model/userType.h
 userType.o: model/userType.cpp model/userType.h
 Credential.o: model/Credential.cpp model/Credential.h
+HashClass.o: model/HashClass.cpp model/HashClass.h
 
 # views
 UserForm.o: view/UserForm.h view/UserForm.cpp
@@ -37,6 +38,7 @@ searchCredView.o: view/searchCredView.h view/searchCredView.cpp
 searchUserView.o: view/searchUserView.h view/searchUserView.cpp
 statusView.o: view/statusView.h view/statusView.cpp
 editCredentialView.o: view/editCredentialView.h view/editCredentialView.cpp
+editUserView.o: view/editUserView.h view/editUserView.cpp
 
 # utilities
 clean:
