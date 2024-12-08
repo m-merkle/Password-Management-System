@@ -5,9 +5,9 @@
  * momerk, 12/7/2024
  */
 
-#include "userType.h"
 #include "Database.h"
 #include "UserForm.h"
+#include "userType.h"
 
 #ifndef SEARCHUSERVIEW_H
 #define SEARCHUSERVIEW_H

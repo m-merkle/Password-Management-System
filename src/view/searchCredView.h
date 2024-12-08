@@ -5,9 +5,9 @@
  * momerk, 12/7/2024
  */
 
-#include "userType.h"
-#include "Database.h"
 #include "CredentialForm.h"
+#include "Database.h"
+#include "userType.h"
 
 #ifndef SEARCHCREDVIEW_H
 #define SEARCHCREDVIEW_H

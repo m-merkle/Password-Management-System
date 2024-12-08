@@ -46,7 +46,7 @@ CredentialForm::CredentialForm()
     credNameEdit = addWidget(std::make_unique<WLineEdit>());
 
     addWidget(std::make_unique<WBreak>());
-    
+
     addWidget(std::make_unique<WText>("Description: "));
     descriptionEdit = addWidget(std::make_unique<WLineEdit>());
 

@@ -6,8 +6,8 @@
  */
 
 #include "Credential.h"
-#include "Database.h"
 #include "CredentialForm.h"
+#include "Database.h"
 #include "passMangApp.h"
 
 #ifndef ADDCREDENTIALVIEW_H
@@ -17,7 +17,7 @@ class addCredentialView : public CredentialForm
 {
   public:
     // addCredentialView() = delete;
-    addCredentialView(const std::string& userID, Database& db); 
+    addCredentialView(const std::string& userID, Database& db);
 
   private:
     void addNewCredential();
