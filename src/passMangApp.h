@@ -45,6 +45,7 @@ class passMangApp : public WApplication
     void searchUser();
     void resultSearchFailure();
     void editCredential();
+    void editUser();
 
     Database db;
     std::string appName;
