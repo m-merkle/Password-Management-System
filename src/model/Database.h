@@ -7,6 +7,8 @@
 #include <sqlite3.h>
 #include <stdexcept>
 
+#include "HashClass.h"
+
 class Database
 {
   public:
@@ -32,6 +34,7 @@ class Database
     bool updateCredential(const passMang::Credential& credential,
                           std::string userid);
     bool deleteCredential(int credID);
+    bool validateUser(const std::string& username, const std::string& plainPassword);
 
   private:
     sqlite3* database;
