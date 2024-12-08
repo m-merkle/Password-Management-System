@@ -3,6 +3,7 @@
  *
  * View - Search Users
  * momerk, 12/7/2024
+ * jathur, 12/8/2024
  */
 
 #include "Database.h"
@@ -20,8 +21,11 @@ class searchUserView : public UserForm
 
   private:
     void searchUser();
+    void displayUsers();
     Database& db;
     passMang::Role userRole;
+    Wt::WGroupBox* resultBox;
+    std::unique_ptr<Wt::WGroupBox> userBox;
 };
 
 #endif /* SEARCHUSERVIEW_H */
