@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * View - Add a user to the list
- * jathur, momerk  12/1/24
+ * jathur, momerk  12/7/24
  */
 #include <string>
 
@@ -15,10 +15,9 @@
 
 using namespace Wt;
 
-addUserView::addUserView() // addUserView::addUserView(passMang::UserList& ul) :
-                           // UserForm {ul}
+addUserView::addUserView(const std::string& userID, Database& db) : userID(userID), db(db)
 {
-    UserForm(); // this line should be deleted after UserList is added
+    UserForm();
     typeEdit->setNoSelectionEnabled(false);
     typeEdit->setCurrentIndex(0);
 
@@ -28,34 +27,41 @@ addUserView::addUserView() // addUserView::addUserView(passMang::UserList& ul) :
 void
 addUserView::addNewUser()
 {
-    // get text from text boxes of the credential form
-    std::string id = WString(idEdit->text()).toUTF8();
+    // variable to check if the id text box is empty
+    bool idcheck = false;
+    int id;    
+
+    // get text from text boxes of the user form
+    std::string stringid = WString(idEdit->text()).toUTF8();
+    // if id text box is not empty, convert to int
+    if(stringid.empty()==false){
+	id = std::stoi(stringid);
+	idcheck=true;
+    }
     std::string username = WString(usernameEdit->text()).toUTF8();
     std::string password = WString(passwordEdit->text()).toUTF8();
     
     // get current index and the type of user
     int currIndex = typeEdit->currentIndex();
-    std::string type = "";
+    passMang::Role role;
 
     if(currIndex == 0)
-	type = "Admin";
+	role = passMang::Role::Admin;
     else if(currIndex == 1)
-	type = "Regular";
+	role = passMang::Role::Regular;
     else if(currIndex == 2)
-	type = "View-Only";
+	role = passMang::Role::ViewOnly;
 
-    if(id.length()==0||username.length()==0||password.length()==0)
+    // if any of the text boxes are empty than fail
+    if(idcheck==false||username.length()==0||password.length()==0)
 	wApp->setInternalPath("/add-failure", true);
-    else
-	// test: will be success as long as all text boxes have text
-    	wApp->setInternalPath("/add-success", true);
-
-    // eventually use this to actually add new user
-/*    else{
-	if(ul.addUser(id, username, password, type))
+    else{
+    	passMang::userType userType(role);
+	passMang::User user(id, username, password, userType);
+	user.updateLastLogin();
+	if(db.insertUser(user))
 		wApp->setInternalPath("/add-success", true);
 	else
 		wApp->setInternalPath("/add-failure", true);
     }
-*/
 }

@@ -200,7 +200,7 @@ passMangApp::onInternalPathChange()
         searchUser();
     else if (internalPath() == "/search-failure")
         resultSearchFailure();
-    else if (internalPath() =="/edit-credential")
+    else if (internalPath() == "/edit-credential")
         editCredential();
     else
         showHomeScreen();
@@ -347,7 +347,7 @@ void
 passMangApp::addUser()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<addUserView>());
+    content->addWidget(std::make_unique<addUserView>(userID, db));
 }
 
 void
