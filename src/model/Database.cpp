@@ -161,9 +161,10 @@ Database::DeleteRecord(const std::string& table, const std::string& criteria)
 bool
 Database::insertUser(const passMang::User& user)
 {
+    std::string hashedPassword = HashClass::ToHash(user.getPassword());
     std::string sql =
         std::to_string(user.getUserID()) + ", '" + user.getUsername() + "', '" +
-        user.getPassword() + "', '" + user.getTypeStr() + "', '" +
+        hashedPassword + "', '" + user.getTypeStr() + "', '" +
         std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
                            user.getLastLogin().time_since_epoch())
                            .count()) +
@@ -174,9 +175,10 @@ Database::insertUser(const passMang::User& user)
 bool
 Database::updateUser(const passMang::User& user)
 {
+    std::string hashedPassword = HashClass::ToHash(user.getPassword());
     std::string sql =
         "Username = '" + user.getUsername() + "', Password = '" +
-        user.getPassword() + "', Type = '" + user.getTypeStr() +
+        hashedPassword + "', Type = '" + user.getTypeStr() +
         "', LastLogin = '" +
         std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
                            user.getLastLogin().time_since_epoch())
@@ -230,3 +232,21 @@ Database::deleteCredential(int credID)
     std::string criteria = "CredentialID = " + std::to_string(credID);
     return DeleteRecord("Credentials", criteria);
 }
+
+
+bool Database::validateUser(const std::string& username, const std::string& plainPassword) {
+    std::string criteria = "Username='" + username + "' AND Password='" + plainPassword + "'";
+    std::string record = retrieveRecord("Users", criteria);
+
+        
+    // parse the record to get user attributes
+    std::stringstream recordSS(record);
+    std::string ID, storedusername, storedHashedPassword, role;
+    std::getline(recordSS, ID, ',');
+    std::getline(recordSS, storedusername, ',');
+    std::getline(recordSS, storedHashedPassword, ',');
+    std::getline(recordSS, role, ',');
+
+    return HashClass::FromHash(plainPassword, storedHashedPassword);
+}
+
