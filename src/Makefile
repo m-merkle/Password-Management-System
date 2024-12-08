@@ -32,11 +32,11 @@ Credential.o: model/Credential.cpp model/Credential.h
 UserForm.o: view/UserForm.h view/UserForm.cpp
 addUserView.o: view/addUserView.h view/addUserView.cpp
 CredentialForm.o: view/CredentialForm.h view/CredentialForm.cpp
-addCredentialView.o: view/addCredentialView.h view/addCredentialView.cpp passMangApp.h
+addCredentialView.o: view/addCredentialView.h view/addCredentialView.cpp
 searchCredView.o: view/searchCredView.h view/searchCredView.cpp
 searchUserView.o: view/searchUserView.h view/searchUserView.cpp
 statusView.o: view/statusView.h view/statusView.cpp
-editCredentialView.o: view/editCredentialView.h view/editCredentialView.cpp #model/CredentialList.h
+editCredentialView.o: view/editCredentialView.h view/editCredentialView.cpp
 
 # utilities
 clean:

@@ -377,7 +377,7 @@ void
 passMangApp::searchCredential()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<searchCredView>());
+    content->addWidget(std::make_unique<searchCredView>(db, userRole));
 }
 void
 passMangApp::editCredential()

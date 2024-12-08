@@ -2,11 +2,11 @@
  * Password Manager - Witty Application
  *
  * View - Search Credential
- * momerk, 11/25/2024
+ * momerk, 12/7/2024
  */
 
-// eventually include credential list to actually search
-// #include CredentialList.h
+#include "userType.h"
+#include "Database.h"
 #include "CredentialForm.h"
 
 #ifndef SEARCHCREDVIEW_H
@@ -16,11 +16,12 @@ class searchCredView : public CredentialForm
 {
   public:
     // searchCredView() = delete;
-    searchCredView();
-    // explicit searchCredView(passMang::CredentialList& cl);
+    searchCredView(Database& db, passMang::Role userRole);
 
   private:
     void searchCred();
+    Database& db;
+    passMang::Role userRole;
 };
 
 #endif /* SEARCHCREDVIEW_H */
