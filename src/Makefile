@@ -3,7 +3,7 @@
 #mmerkle, 12/5/2024
 
 PROG=app
-PORT=8096
+PORT=8092
 SRCS=main.cpp passMangApp.cpp \
        UserForm.cpp addUserView.cpp CredentialForm.cpp addCredentialView.cpp searchCredView.cpp searchUserView.cpp statusView.cpp editCredentialView.cpp \
        userType.cpp Database.cpp User.cpp Credential.cpp \
