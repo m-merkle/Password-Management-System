@@ -32,10 +32,10 @@
 #include "addCredentialView.h"
 #include "addUserView.h"
 #include "editCredentialView.h"
+#include "editUserView.h"
 #include "searchCredView.h"
 #include "searchUserView.h"
 #include "statusView.h"
-#include "editUserView.h"
 
 // files from model
 #include "Database.h"
@@ -80,24 +80,34 @@ passMangApp::userLogin()
     assert(content != nullptr);
 
     auto loginContainer = std::make_unique<WContainerWidget>();
-    loginContainer->setAttributeValue("style", "padding: 20px; background-color: #B50404; border: 1px solid #ddd; border-radius: 5px width: 300px; margin: auto;");
+    loginContainer->setAttributeValue(
+        "style",
+        "padding: 20px; background-color: #B50404; border: 1px solid #ddd; "
+        "border-radius: 5px width: 300px; margin: auto;");
 
     // create label and username line
-    auto usernameText = loginContainer->addWidget(std::make_unique<WText>("Username: "));
-    usernameText->setAttributeValue("style", "font-weight: bold; margin: auto;");
+    auto usernameText =
+        loginContainer->addWidget(std::make_unique<WText>("Username: "));
+    usernameText->setAttributeValue("style",
+                                    "font-weight: bold; margin: auto;");
 
     auto usernameIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
-    usernameIn->setAttributeValue("style", "width: 30%; padding: 5px; margin-bottom: 10px; margin: auto;");
-    
+    usernameIn->setAttributeValue(
+        "style",
+        "width: 30%; padding: 5px; margin-bottom: 10px; margin: auto;");
 
     loginContainer->addWidget(std::make_unique<WBreak>());
 
     // create label and password line
-    auto passwordText = loginContainer->addWidget(std::make_unique<WText>("Password: "));
-    passwordText->setAttributeValue("style", "font-weight: bold; margin: auto;");
+    auto passwordText =
+        loginContainer->addWidget(std::make_unique<WText>("Password: "));
+    passwordText->setAttributeValue("style",
+                                    "font-weight: bold; margin: auto;");
 
     auto passwordIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
-    passwordIn->setAttributeValue("style", "width: 30%; padding: 5px; margin-bottom: 10px; margin: auto;");
+    passwordIn->setAttributeValue(
+        "style",
+        "width: 30%; padding: 5px; margin-bottom: 10px; margin: auto;");
 
     loginContainer->addWidget(std::make_unique<WBreak>());
 
@@ -106,11 +116,11 @@ passMangApp::userLogin()
         loginContainer->addWidget(std::make_unique<WPushButton>("Login"));
     loginButton->setAttributeValue("style", "background-color: #056B01;");
     loginButton->mouseWentOver().connect([=] {
-		    loginButton->setAttributeValue("style", "background-color: #0FD108;");
-		    });
+        loginButton->setAttributeValue("style", "background-color: #0FD108;");
+    });
     loginButton->mouseWentOut().connect([=] {
-		    loginButton->setAttributeValue("style", "background-color: #056B01;");
-		    });
+        loginButton->setAttributeValue("style", "background-color: #056B01;");
+    });
 
     // add container to content
     content->addWidget(std::move(loginContainer));
@@ -124,9 +134,11 @@ passMangApp::userLogin()
             showHomeScreen();
         } else {
             if (invalidCount == 0) {
-	        auto invalidLoginText = std::make_unique<WText>("Invalid Login");
-		invalidLoginText->setAttributeValue("style", "background-color: #FF1F17; font-weight: bold;");
-		content->addWidget(std::move(invalidLoginText));
+                auto invalidLoginText =
+                    std::make_unique<WText>("Invalid Login");
+                invalidLoginText->setAttributeValue(
+                    "style", "background-color: #FF1F17; font-weight: bold;");
+                content->addWidget(std::move(invalidLoginText));
                 invalidCount++;
             }
         }
@@ -221,7 +233,7 @@ passMangApp::onInternalPathChange()
         resultSearchFailure();
     else if (internalPath() == "/edit-credential")
         editCredential();
-    else if (internalPath() =="/edit-user")
+    else if (internalPath() == "/edit-user")
         editUser();
     else if (internalPath() == "/edit-success")
         resultEditSuccess();
@@ -248,7 +260,7 @@ passMangApp::createNavigationContainer()
 
         // create navigation bar but clear contents (placeholder, fill later)
         navigation = root()->addWidget(std::make_unique<WContainerWidget>());
-	navigation->setAttributeValue("style", "background-color: #FDF4DC;");
+        navigation->setAttributeValue("style", "background-color: #FDF4DC;");
         navigation->clear();
 
         // hide the navigation bar to start (since login page shown first)
@@ -275,7 +287,8 @@ passMangApp::updateNavigation()
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
         navText += "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;";
         navText += "<a href='#/search-user'>Search Users</a>&nbsp;&nbsp;";
-        navText += "<a href='#/edit-credential'>Edit Credential</a>&nbsp;&nbsp;";
+        navText +=
+            "<a href='#/edit-credential'>Edit Credential</a>&nbsp;&nbsp;";
         navText += "<a href='#/edit-user'>Edit User</a>&nbsp;&nbsp;";
     } else if (userRole == passMang::Role::Regular) {
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";

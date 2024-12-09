@@ -53,11 +53,11 @@ CredentialForm::CredentialForm(bool addDelete, bool userIDtext)
     addWidget(std::make_unique<WBreak>());
 
     // only add this if user ID is needed (search credential)
-    if(userIDtext == true){
-  	addWidget(std::make_unique<WText>("User ID: "));
-   	userIDEdit = addWidget(std::make_unique<WLineEdit>());	
-   	addWidget(std::make_unique<WBreak>());
-    }	
+    if (userIDtext == true) {
+        addWidget(std::make_unique<WText>("User ID: "));
+        userIDEdit = addWidget(std::make_unique<WLineEdit>());
+        addWidget(std::make_unique<WBreak>());
+    }
 
     auto cancelButton = addWidget(std::make_unique<WPushButton>("Cancel"));
     cancelButton->setMargin(5, Side::Left | Side::Top);
@@ -68,11 +68,11 @@ CredentialForm::CredentialForm(bool addDelete, bool userIDtext)
     // connect "add" button in derived class
 
     // only add this if delete button is needed (edit credential)
-    if(addDelete == true){
-	deleteButton = addWidget(std::make_unique<WPushButton>("Delete"));
-	deleteButton->setMargin(5, Side::Left | Side::Top);
-	// connect "delete" button in derived class
+    if (addDelete == true) {
+        deleteButton = addWidget(std::make_unique<WPushButton>("Delete"));
+        deleteButton->setMargin(5, Side::Left | Side::Top);
+        // connect "delete" button in derived class
     }
-	
+
     addWidget(std::make_unique<WBreak>());
 }

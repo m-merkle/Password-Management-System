@@ -6,9 +6,9 @@
  * momerk 12/8/24
  */
 
-#include "UserForm.h"
-#include "User.h"
 #include "Database.h"
+#include "User.h"
+#include "UserForm.h"
 #include "passMangApp.h"
 
 #ifndef EDITUSERVIEW_H
@@ -18,6 +18,7 @@ class editUserView : public UserForm
 {
   public:
     editUserView(Database& db);
+
   private:
     void editUser();
     void deleteUser();

@@ -15,8 +15,7 @@
 
 using namespace Wt;
 
-addUserView::addUserView(Database& db) :
-    db(db)
+addUserView::addUserView(Database& db) : db(db)
 {
     UserForm(false);
     typeEdit->setNoSelectionEnabled(false);
@@ -54,7 +53,8 @@ addUserView::addNewUser()
         role = passMang::Role::ViewOnly;
 
     // if any of the text boxes are empty or the combo box is empty than fail
-    if (idcheck == false || username.length() == 0 || password.length() == 0 || currIndex == 0)
+    if (idcheck == false || username.length() == 0 || password.length() == 0 ||
+        currIndex == 0)
         wApp->setInternalPath("/add-failure", true);
     else {
         passMang::userType userType(role);

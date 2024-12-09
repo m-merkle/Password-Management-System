@@ -55,10 +55,10 @@ UserForm::UserForm(bool addDelete)
     addButton->setMargin(5, Side::Left | Side::Top);
     // connect "add" button in derived class
 
-    if(addDelete == true){
-	deleteButton = addWidget(std::make_unique<WPushButton>("Delete"));
-	deleteButton->setMargin(5, Side::Left | Side::Top);
-	// connect "delete" button in derived class
+    if (addDelete == true) {
+        deleteButton = addWidget(std::make_unique<WPushButton>("Delete"));
+        deleteButton->setMargin(5, Side::Left | Side::Top);
+        // connect "delete" button in derived class
     }
 
     addWidget(std::make_unique<WBreak>());

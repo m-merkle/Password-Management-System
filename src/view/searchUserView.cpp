@@ -32,7 +32,8 @@ searchUserView::searchUserView(Database& db) :
     addButton->setText("Search");
     addButton->clicked().connect(this, &searchUserView::searchUser);
 
-    // if user role is admin, then show all users (all users able to navigate here are admin)
+    // if user role is admin, then show all users (all users able to navigate
+    // here are admin)
     displayUsers();
 }
 
