@@ -21,7 +21,8 @@ class editCredentialView : public CredentialForm
     editCredentialView(const std::string& userID, Database& db);
 
   private:
-    void editNewCredential();
+    void editCredential();
+    void deleteCredential();
     std::string userID;
     Database& db;
 };

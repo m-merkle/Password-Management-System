@@ -19,7 +19,7 @@ class CredentialForm : public WContainerWidget
 {
   public:
     // CredentialForm() = delete;
-    CredentialForm(bool addedFeatures = false);
+    CredentialForm(bool addDelete = false, bool userIDtext = false);
 
   protected:
     WLineEdit* idEdit;
