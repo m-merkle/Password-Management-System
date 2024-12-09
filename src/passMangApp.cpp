@@ -71,6 +71,7 @@ passMangApp::passMangApp(const WEnvironment& env) :
 
     // call for login screen
     userLogin();
+    setInternalPath("/login");
 
     // create footer container
     createFooterContainer();
@@ -80,6 +81,7 @@ void
 passMangApp::userLogin()
 {
     assert(content != nullptr);
+    setInternalPath("/login");
 
     auto loginContainer = std::make_unique<WContainerWidget>();
     loginContainer->setAttributeValue(
@@ -134,6 +136,7 @@ passMangApp::userLogin()
                        passwordIn->text().toUTF8())) {
             // show home screen once validated
             showHomeScreen();
+	    setInternalPath("/home");
         } else {
             if (invalidCount == 0) {
                 auto invalidLoginText =
@@ -213,13 +216,22 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 }
 
 void
+passMangApp::userLogout()
+{
+    navigation->hide();
+    content->clear();
+    userLogin();    
+}
+
+void
 passMangApp::onInternalPathChange()
 {
     assert(content != nullptr);
 
     content->clear();
-
-    if (internalPath() == "/add-user")
+    if (internalPath() == "/home")
+	showHomeScreen();
+    else if (internalPath() == "/add-user")
         addUser();
     else if (internalPath() == "/add-credential")
         addCredential();
@@ -242,7 +254,7 @@ passMangApp::onInternalPathChange()
     else if (internalPath() == "/edit-failure")
         resultEditFailure();
     else
-        showHomeScreen();
+        userLogin();
 }
 
 void
@@ -299,6 +311,11 @@ passMangApp::updateNavigation()
     auto navLink = std::make_unique<WText>(navText);
     navLink->setInternalPathEncoding(true);
     navigation->addWidget(std::move(navLink));
+
+    // add logout button to navigation
+    auto logoutButton = navigation->addWidget(std::make_unique<WPushButton>("Logout"));
+    logoutButton->clicked().connect(this, &passMangApp::userLogout);
+
 
     // show after updated navigation (only called after login)
     navigation->show();

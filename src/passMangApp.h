@@ -31,6 +31,7 @@ class passMangApp : public WApplication
   private:
     void onInternalPathChange();
     void userLogin();
+    void userLogout();
     bool checkLogin(const std::string& usernm, const std::string& pass);
     void createHeaderContainer();
     void createNavigationContainer();
