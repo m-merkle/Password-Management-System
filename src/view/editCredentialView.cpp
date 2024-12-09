@@ -84,6 +84,13 @@ editCredentialView::editCredential()
             std::getline(credSS, LastChange, ',');
             std::getline(credSS, ogUserID, '.');
 
+            // trim all variables of whitespace
+            ogName = passMangApp::trim(ogName);
+            ogUsername = passMangApp::trim(ogUsername);
+            ogPass = passMangApp::trim(ogPass);
+            ogEmail = passMangApp::trim(ogEmail);
+            ogDescrip = passMangApp::trim(ogDescrip);
+
             // make changes based on user input (which text boxes have updates)
             // if no update, then set variable to the og
             if (credname.length() == 0)
@@ -127,7 +134,7 @@ editCredentialView::deleteCredential()
 
     // if credential id is empty then fail (delete won't work)
     if (idcheck == false)
-        wApp->setInternalPath("/edit-failure", true);
+        wApp->setInternalPath("/delete-failure", true);
     else {
         // get current credential
         std::string criteria = "credentialID=" + stringid;
@@ -135,12 +142,12 @@ editCredentialView::deleteCredential()
 
         // if no matching credential then fail
         if (record.empty() == true)
-            wApp->setInternalPath("/edit-failure", true);
+            wApp->setInternalPath("/delete-failure", true);
         else {
             if (db.deleteCredential(id)) {
-                wApp->setInternalPath("/edit-success", true);
+                wApp->setInternalPath("/delete-success", true);
             } else
-                wApp->setInternalPath("/edit-failure", true);
+                wApp->setInternalPath("/delete-failure", true);
         }
     }
 }

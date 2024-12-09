@@ -27,6 +27,7 @@ class passMangApp : public WApplication
   public:
     passMangApp() = delete;
     explicit passMangApp(const WEnvironment& env);
+    static std::string trim(std::string text);
 
   private:
     void onInternalPathChange();
@@ -41,6 +42,8 @@ class passMangApp : public WApplication
     void addCredential();
     void resultAddSuccess();
     void resultAddFailure();
+    void resultDeleteSuccess();
+    void resultDeleteFailure();
     void searchCredential();
     void searchUser();
     void resultSearchFailure();

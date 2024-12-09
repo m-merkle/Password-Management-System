@@ -88,11 +88,10 @@ Database::retrieveRecord(const std::string& table, const std::string& criteria)
             }
             if (i < cols - 1) {
                 record += ", ";
+            } else {
+                record += ".";
             }
-            else{
-		record += ".";
-	    }
-	}
+        }
         record += "\n";
     }
 
@@ -233,12 +232,14 @@ Database::deleteCredential(int credID)
     return DeleteRecord("Credentials", criteria);
 }
 
-
-bool Database::validateUser(const std::string& username, const std::string& plainPassword) {
-    std::string criteria = "Username='" + username + "' AND Password='" + plainPassword + "'";
+bool
+Database::validateUser(const std::string& username,
+                       const std::string& plainPassword)
+{
+    std::string criteria =
+        "Username='" + username + "' AND Password='" + plainPassword + "'";
     std::string record = retrieveRecord("Users", criteria);
 
-        
     // parse the record to get user attributes
     std::stringstream recordSS(record);
     std::string ID, storedusername, storedHashedPassword, role;
@@ -249,4 +250,3 @@ bool Database::validateUser(const std::string& username, const std::string& plai
 
     return HashClass::FromHash(plainPassword, storedHashedPassword);
 }
-
