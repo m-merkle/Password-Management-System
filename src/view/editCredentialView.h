@@ -18,12 +18,11 @@ class editCredentialView : public CredentialForm
 {
   public:
     // editCredentialView() = delete;
-    editCredentialView(const std::string& userID, Database& db);
+    editCredentialView(Database& db);
 
   private:
     void editCredential();
     void deleteCredential();
-    std::string userID;
     Database& db;
 };
 

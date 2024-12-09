@@ -178,7 +178,7 @@ Database::updateUser(const passMang::User& user)
     std::string hashedPassword = HashClass::ToHash(user.getPassword());
     std::string sql =
         "Username = '" + user.getUsername() + "', Password = '" +
-        hashedPassword + "', Type = '" + user.getTypeStr() +
+        hashedPassword + "', Role = '" + user.getTypeStr() +
         "', LastLogin = '" +
         std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
                            user.getLastLogin().time_since_epoch())

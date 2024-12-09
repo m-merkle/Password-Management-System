@@ -16,7 +16,7 @@
 
 using namespace Wt;
 
-editCredentialView::editCredentialView(const std::string& userID, Database& db) : CredentialForm(true,false), userID(userID), db(db)
+editCredentialView::editCredentialView(Database& db) : CredentialForm(true,false), db(db)
 {
     addButton->setText("Edit");
     addButton->clicked().connect(this, &editCredentialView::editCredential);

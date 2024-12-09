@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * View - Add a user to the list
- * jathur, momerk  12/7/24
+ * jathur, momerk  12/8/24
  */
 #include <string>
 
@@ -15,10 +15,10 @@
 
 using namespace Wt;
 
-addUserView::addUserView(const std::string& userID, Database& db) :
-    userID(userID), db(db)
+addUserView::addUserView(Database& db) :
+    db(db)
 {
-    UserForm();
+    UserForm(false);
     typeEdit->setNoSelectionEnabled(false);
     typeEdit->setCurrentIndex(0);
 
@@ -46,15 +46,15 @@ addUserView::addNewUser()
     int currIndex = typeEdit->currentIndex();
     passMang::Role role;
 
-    if (currIndex == 0)
+    if (currIndex == 1)
         role = passMang::Role::Admin;
-    else if (currIndex == 1)
-        role = passMang::Role::Regular;
     else if (currIndex == 2)
+        role = passMang::Role::Regular;
+    else if (currIndex == 3)
         role = passMang::Role::ViewOnly;
 
-    // if any of the text boxes are empty than fail
-    if (idcheck == false || username.length() == 0 || password.length() == 0)
+    // if any of the text boxes are empty or the combo box is empty than fail
+    if (idcheck == false || username.length() == 0 || password.length() == 0 || currIndex == 0)
         wApp->setInternalPath("/add-failure", true);
     else {
         passMang::userType userType(role);

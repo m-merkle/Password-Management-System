@@ -17,11 +17,10 @@ class addUserView : public UserForm
 {
   public:
     // addUserView() = delete;
-    addUserView(const std::string& userID, Database& db);
+    addUserView(Database& db);
 
   private:
     void addNewUser();
-    std::string userID;
     Database& db;
 };
 

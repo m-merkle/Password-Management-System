@@ -383,14 +383,14 @@ void
 passMangApp::addUser()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<addUserView>(userID, db));
+    content->addWidget(std::make_unique<addUserView>(db));
 }
 
 void
 passMangApp::addCredential()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<addCredentialView>(userID, db));
+    content->addWidget(std::make_unique<addCredentialView>(db, userID));
 }
 
 void
@@ -435,19 +435,19 @@ void
 passMangApp::editCredential()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<editCredentialView>(userID, db));
+    content->addWidget(std::make_unique<editCredentialView>(db));
 }
 void
 passMangApp::searchUser()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<searchUserView>(db, userRole));
+    content->addWidget(std::make_unique<searchUserView>(db));
 }
 void
 passMangApp::editUser()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<editUserView>());
+    content->addWidget(std::make_unique<editUserView>(db));
 }
 void
 passMangApp::resultSearchFailure()

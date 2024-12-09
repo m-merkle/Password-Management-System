@@ -17,7 +17,7 @@ class addCredentialView : public CredentialForm
 {
   public:
     // addCredentialView() = delete;
-    addCredentialView(const std::string& userID, Database& db);
+    addCredentialView(Database& db, const std::string& userID);
 
   private:
     void addNewCredential();

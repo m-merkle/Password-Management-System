@@ -15,8 +15,8 @@
 
 using namespace Wt;
 
-addCredentialView::addCredentialView(const std::string& userID, Database& db) :
-    userID(userID), db(db)
+addCredentialView::addCredentialView(Database& db, const std::string& userID) :
+    db(db), userID(userID)
 {
     CredentialForm(false,false);
     addButton->clicked().connect(this, &addCredentialView::addNewCredential);

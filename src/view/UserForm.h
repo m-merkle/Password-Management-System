@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * View - user form
- * mmerkle, jathur, 11/19/2024
+ * mmerkle, jathur, 12/8/2024
  */
 
 #include <Wt/WComboBox.h>
@@ -19,7 +19,7 @@ class UserForm : public WContainerWidget
 {
   public:
     // UserForm() = delete;
-    explicit UserForm();
+    explicit UserForm(bool addDelete = false);
 
   protected:
     WLineEdit* idEdit;
@@ -28,6 +28,7 @@ class UserForm : public WContainerWidget
     WComboBox* typeEdit;
     WPushButton* addButton;
     WPushButton* cancelButton;
+    WPushButton* deleteButton;
 };
 
 #endif /* USERFORM_H */
