@@ -21,22 +21,20 @@
 
 using namespace Wt;
 
-searchUserView::searchUserView(Database& db, passMang::Role userRole) :
-    db(db), userRole(userRole), userBox(nullptr), resultBox(nullptr)
+searchUserView::searchUserView(Database& db) :
+    db(db), userBox(nullptr), resultBox(nullptr)
 {
-    // UserForm();
+    // UserForm(false);
 
     addWidget(std::make_unique<WBreak>());
-    addWidget(std::make_unique<WText>("Results:"));
-    addWidget(std::make_unique<WBreak>());
-    resultBox = addWidget(std::make_unique<Wt::WGroupBox>());
+    resultBox = addWidget(std::make_unique<Wt::WGroupBox>("Results:"));
 
     addButton->setText("Search");
     addButton->clicked().connect(this, &searchUserView::searchUser);
 
-    // if user role is admin, then show all users
-    // if (userRole == passMang::Role::Admin)
-    // displayUsers();
+    // if user role is admin, then show all users (all users able to navigate
+    // here are admin)
+    displayUsers();
 }
 
 void

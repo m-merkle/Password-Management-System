@@ -17,7 +17,7 @@
 
 using namespace Wt;
 
-UserForm::UserForm()
+UserForm::UserForm(bool addDelete)
 {
     addWidget(std::make_unique<WBreak>());
 
@@ -40,6 +40,7 @@ UserForm::UserForm()
     addWidget(std::make_unique<WText>("User type: "));
     typeEdit = addWidget(std::make_unique<WComboBox>());
 
+    typeEdit->addItem("");
     typeEdit->addItem("Admin");
     typeEdit->addItem("Regular");
     typeEdit->addItem("View-Only");
@@ -53,6 +54,12 @@ UserForm::UserForm()
     addButton = addWidget(std::make_unique<WPushButton>("Add"));
     addButton->setMargin(5, Side::Left | Side::Top);
     // connect "add" button in derived class
+
+    if (addDelete == true) {
+        deleteButton = addWidget(std::make_unique<WPushButton>("Delete"));
+        deleteButton->setMargin(5, Side::Left | Side::Top);
+        // connect "delete" button in derived class
+    }
 
     addWidget(std::make_unique<WBreak>());
 }

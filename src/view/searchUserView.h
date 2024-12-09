@@ -17,13 +17,12 @@ class searchUserView : public UserForm
 {
   public:
     // searchUserView() = delete;
-    searchUserView(Database& db, passMang::Role userRole);
+    searchUserView(Database& db);
 
   private:
     void searchUser();
     void displayUsers();
     Database& db;
-    passMang::Role userRole;
     Wt::WGroupBox* resultBox;
     std::unique_ptr<Wt::WGroupBox> userBox;
 };
