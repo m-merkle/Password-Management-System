@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * View - Credential form
- * jathur, momerk 12/7/2024
+ * jathur, momerk 12/8/2024
  */
 
 #include <Wt/WComboBox.h>
@@ -19,7 +19,7 @@ class CredentialForm : public WContainerWidget
 {
   public:
     // CredentialForm() = delete;
-    CredentialForm();
+    CredentialForm(bool addedFeatures = false);
 
   protected:
     WLineEdit* idEdit;
@@ -28,8 +28,10 @@ class CredentialForm : public WContainerWidget
     WLineEdit* emailEdit;
     WLineEdit* credNameEdit;
     WLineEdit* descriptionEdit;
+    WLineEdit* userIDEdit;
     WPushButton* addButton;
     WPushButton* cancelButton;
+    WPushButton* deleteButton;
 };
 
 #endif /* CREDENTIALFORM_H */

@@ -2,7 +2,7 @@
  * Password Manager - Witty Application
  *
  * View - Credential form
- * jathur, momerk  12/7/2024
+ * jathur, momerk  12/8/2024
  */
 
 #include <memory>
@@ -17,11 +17,11 @@
 
 using namespace Wt;
 
-CredentialForm::CredentialForm()
+CredentialForm::CredentialForm(bool addedFeatures)
 {
     addWidget(std::make_unique<WBreak>());
 
-    addWidget(std::make_unique<WText>("ID: "));
+    addWidget(std::make_unique<WText>("Credential ID: "));
     idEdit = addWidget(std::make_unique<WLineEdit>());
     idEdit->setFocus();
 
@@ -52,6 +52,13 @@ CredentialForm::CredentialForm()
 
     addWidget(std::make_unique<WBreak>());
 
+    // only add this if user ID is needed (edit credential)
+    if(addedFeatures == true){
+  	addWidget(std::make_unique<WText>("User ID: "));
+   	userIDEdit = addWidget(std::make_unique<WLineEdit>());	
+   	addWidget(std::make_unique<WBreak>());
+    }	
+
     auto cancelButton = addWidget(std::make_unique<WPushButton>("Cancel"));
     cancelButton->setMargin(5, Side::Left | Side::Top);
     cancelButton->setLink(WLink(LinkType::InternalPath, "/home"));
@@ -60,5 +67,12 @@ CredentialForm::CredentialForm()
     addButton->setMargin(5, Side::Left | Side::Top);
     // connect "add" button in derived class
 
+    // only add this if delete button is needed (edit credential)
+    if(addedFeatures == true){
+	deleteButton = addWidget(std::make_unique<WPushButton>("Delete"));
+	deleteButton->setMargin(5, Side::Left | Side::Top);
+	// connect "delete" button in derived class
+    }
+	
     addWidget(std::make_unique<WBreak>());
 }

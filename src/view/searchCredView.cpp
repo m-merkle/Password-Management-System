@@ -23,7 +23,7 @@ using namespace Wt;
 searchCredView::searchCredView(Database& db, passMang::Role userRole) :
     db(db), userRole(userRole)
 {
-    CredentialForm();
+    CredentialForm(false);
     addButton->setText("Search");
     addButton->clicked().connect(this, &searchCredView::searchCred);
 

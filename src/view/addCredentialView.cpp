@@ -18,7 +18,7 @@ using namespace Wt;
 addCredentialView::addCredentialView(const std::string& userID, Database& db) :
     userID(userID), db(db)
 {
-    CredentialForm();
+    CredentialForm(false);
     addButton->clicked().connect(this, &addCredentialView::addNewCredential);
 }
 
@@ -44,7 +44,7 @@ addCredentialView::addNewCredential()
 
     // if any of the text boxes are empty than fail
     if (idcheck == false || username.length() == 0 || password.length() == 0 ||
-        email.length() == 0 || credname.length() == 0)
+        email.length() == 0 || credname.length() == 0 || descrip.length() == 0)
         wApp->setInternalPath("/add-failure", true);
     else {
         passMang::Credential credential(

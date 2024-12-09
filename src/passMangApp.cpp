@@ -223,6 +223,10 @@ passMangApp::onInternalPathChange()
         editCredential();
     else if (internalPath() =="/edit-user")
         editUser();
+    else if (internalPath() == "/edit-success")
+        resultEditSuccess();
+    else if (internalPath() == "/edit-failure")
+        resultEditFailure();
     else
         showHomeScreen();
 }
@@ -394,7 +398,7 @@ passMangApp::resultAddSuccess()
 {
     assert(content != nullptr);
     content->addWidget(
-        std::make_unique<statusView>(true, "Successfully added!"));
+        std::make_unique<statusView>(true, "Successfully Added!"));
 }
 
 void
@@ -403,6 +407,22 @@ passMangApp::resultAddFailure()
     assert(content != nullptr);
     content->addWidget(
         std::make_unique<statusView>(false, "Add failed. Try again"));
+}
+
+void
+passMangApp::resultEditSuccess()
+{
+    assert(content != nullptr);
+    content->addWidget(
+        std::make_unique<statusView>(true, "Successfully Edited!"));
+}
+
+void
+passMangApp::resultEditFailure()
+{
+    assert(content != nullptr);
+    content->addWidget(
+        std::make_unique<statusView>(false, "Edit failed. Try again"));
 }
 
 void
@@ -415,7 +435,7 @@ void
 passMangApp::editCredential()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<editCredentialView>());
+    content->addWidget(std::make_unique<editCredentialView>(userID, db));
 }
 void
 passMangApp::searchUser()
@@ -433,5 +453,5 @@ void
 passMangApp::resultSearchFailure()
 {
     assert(content != nullptr);
-    content->addWidget(std::make_unique<statusView>(false, "No Matches :("));
+    content->addWidget(std::make_unique<statusView>(false, "No Matches"));
 }
