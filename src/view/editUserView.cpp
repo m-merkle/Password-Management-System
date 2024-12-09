@@ -5,6 +5,7 @@
  * Trmiss, 12/07/2024
  * momerk, 12/8/24
  */
+
 #include <Wt/WApplication.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WString.h>
@@ -55,8 +56,6 @@ editUserView::editUser()
     // get current index and the type of user
     int currIndex = typeEdit->currentIndex();
 
-    // std::cout << "CURRENT INDEX: " << currIndex << std::endl;
-
     passMang::Role role;
 
     if (currIndex == 1)
@@ -90,6 +89,22 @@ editUserView::editUser()
             std::getline(userSS, ogRole, ',');
             std::getline(userSS, LastLogin, '.');
 
+            /*
+            std::cout << std::endl;
+            std::cout << "OG USERID:" << ogUserID << std::endl;
+            std::cout << "OG USERNAME:" << ogUsername << std::endl;
+            std::cout << "OG PASS:" << ogPass << std::endl;
+            std::cout << "OG ROLE:" << ogRole << std::endl;
+            std::cout << "LAST LOGIN:" << LastLogin << std::endl;
+            std::cout << std::endl;
+            */
+
+            // trim all attributes
+            ogUserID = passMangApp::trim(ogUserID);
+            ogUsername = passMangApp::trim(ogUsername);
+            ogPass = passMangApp::trim(ogPass);
+            ogRole = passMangApp::trim(ogRole);
+
             // make changes based on user input (which text boxes have updates)
             // if no update, then set variable to the og
             if (username.length() == 0)
@@ -101,7 +116,7 @@ editUserView::editUser()
                     role = passMang::Role::Admin;
                 else if (ogRole == "Regular")
                     role = passMang::Role::Regular;
-                else
+                else if (ogRole == "ViewOnly")
                     role = passMang::Role::ViewOnly;
             }
 
@@ -135,7 +150,7 @@ editUserView::deleteUser()
 
     // if id is empty then fail (delete won't work)
     if (idcheck == false)
-        wApp->setInternalPath("/edit-failure", true);
+        wApp->setInternalPath("/delete-failure", true);
     else {
         // get current user to be deleted
         std::string criteria = "userID=" + stringid;
@@ -143,12 +158,12 @@ editUserView::deleteUser()
 
         // if no matching user then fail
         if (record.empty() == true)
-            wApp->setInternalPath("/edit-failure", true);
+            wApp->setInternalPath("/delete-failure", true);
         else {
             if (db.deleteUser(id))
-                wApp->setInternalPath("/edit-success", true);
+                wApp->setInternalPath("/delete-success", true);
             else
-                wApp->setInternalPath("/edit-failure", true);
+                wApp->setInternalPath("/delete-failure", true);
         }
     }
 }

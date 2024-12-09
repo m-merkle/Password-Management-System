@@ -34,7 +34,8 @@ class Database
     bool updateCredential(const passMang::Credential& credential,
                           std::string userid);
     bool deleteCredential(int credID);
-    bool validateUser(const std::string& username, const std::string& plainPassword);
+    bool validateUser(const std::string& username,
+                      const std::string& plainPassword);
 
   private:
     sqlite3* database;

@@ -65,7 +65,7 @@ passMangApp::passMangApp(const WEnvironment& env) :
     createNavigationContainer();
 
     auto contentContainer = std::make_unique<WContainerWidget>();
-    contentContainer->setAttributeValue("style", "background-color: #165B33;");
+    contentContainer->setAttributeValue("style", "background-color: #7DA170;");
     content = contentContainer.get();
     root()->addWidget(std::move(contentContainer));
 
@@ -74,6 +74,20 @@ passMangApp::passMangApp(const WEnvironment& env) :
 
     // create footer container
     createFooterContainer();
+}
+
+// function to trim text (utilized throughout when parsing attributes)
+std::string
+passMangApp::trim(std::string text)
+{
+	// get rid of whitespace (code taken from geeksforgeeks.org)
+	for(int i = 0; i < text.length(); i++){
+		if(text[i] == ' ') {
+			text.erase(text.begin() + i);
+			i--;
+		}
+	}
+	return text;	
 }
 
 void
@@ -150,64 +164,86 @@ passMangApp::userLogin()
 bool
 passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 {
-    // attempt to retrieve record of user with given login
-    std::string criteria =
-        "Username='" + usernm + "' AND Password='" + pass + "'";
+    // attempt to retrieve record of user with given username
+    std::string criteria = "Username='"+usernm+"'";
+    //    "Username='" + usernm + "' AND Password='" + pass + "'";
     std::string record = db.retrieveRecord("Users", criteria);
-    // std::cout << "RECORD: " << record << std::endl;
+   
+    //std::cout << "USERNAME: " << criteria << std::endl; 
+    //std::cout << "RECORD: " << record << std::endl;
 
     // if no record of user than fail (if empty), if not get user ID and role
     if (record.empty() == false) {
 
         std::stringstream recordSS(record);
-        std::string ID, username, password, role;
+        std::string ID, username, storedHash, role;
 
         // parse the record to get user attributes
         std::getline(recordSS, ID, ',');
         std::getline(recordSS, username, ',');
-        std::getline(recordSS, password, ',');
+        std::getline(recordSS, storedHash, ',');
         std::getline(recordSS, role, ',');
+	
+	// trim all whitespace
+	ID = trim(ID);
+	username = trim(username);
+	storedHash = trim(storedHash);
+	role = trim(role);	
 
-        // get rid of whitespace of role (code taken from geeksforgeeks.org)
-        for (int i = 0; i < role.length(); i++) {
-            if (role[i] == ' ') {
-                role.erase(role.begin() + i);
-                i--;
-            }
-        }
+	//std::cout << "ROLE: " << role << std::endl;
+	//std::cout << "ENTERED PASS:" << pass << std::endl;
+	
+	// hash the password entered by user	
+	std::string hashedIn = HashClass::ToHash(pass);
+	
+	//std::cout << "ENTERED PASSWORD HASH:" << hashedIn << std::endl;
+	//std::cout << "STORED PASSWORD HASH:" << storedHash << std::endl;
+	
+	//std::cout << "LENGTH OF ENTERED: " << hashedIn.length() << std::endl;
+	//std::cout << "LENGTH OF STORED: " << storedHash.length() << std::endl;
 
-        // set id of user (keep string so easier to use throughout application)
-        userID = ID;
+	//bool equal = (hashedIn == storedHash);
+	//std::cout << "EQUAL? " << equal << std::endl;
+	
+	// compare hashed password to stored hash
+	if(hashedIn == storedHash){
+		
+        	// set id of user (keep string so easier to use throughout application)
+      		 userID = ID;
 
-        // set role of user
-        if (role == "admin" || role == "Admin")
-            userRole = passMang::Role::Admin;
-        else if (role == "regular" || role == "Regular")
-            userRole = passMang::Role::Regular;
-        else
-            userRole = passMang::Role::ViewOnly;
+	        // set role of user
+	        if (role == "Admin")
+       		     userRole = passMang::Role::Admin;
+   	     	else if (role == "Regular")
+            		userRole = passMang::Role::Regular;
+        	else if (role == "ViewOnly")
+            		userRole = passMang::Role::ViewOnly;
 
-        // update the last login time (code taken from model team and
-        // geeksforgeeks.org)
-        std::chrono::system_clock::time_point update =
-            std::chrono::system_clock::now();
-        std::time_t currentTime = std::chrono::system_clock::to_time_t(update);
+        	// update the last login time (code taken from model team and
+        	// geeksforgeeks.org)
+        	std::chrono::system_clock::time_point update =
+        	    std::chrono::system_clock::now();
+        	std::time_t currentTime = std::chrono::system_clock::to_time_t(update);
 
-        struct tm* localtime = std::localtime(&currentTime);
+        	struct tm* localtime = std::localtime(&currentTime);
 
-        char time[50];
-        std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
+        	char time[50];
+        	std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
 
-        // std::cout << "UPDATED TIME: " << time << std::endl;
+        	//std::cout << "UPDATED TIME: " << time << std::endl;
 
-        // define data and criteria for user update
-        std::string timeCriteria = "UserID=" + ID;
-        std::string data = "LastLogin='" + std::string(time) + "'";
+        	// define data and criteria for user update
+        	std::string timeCriteria = "UserID=" + ID;
+        	std::string data = "LastLogin='" + std::string(time) + "'";
 
-        // update database with new login time for user
-        db.UpdateRecord("Users", data, timeCriteria);
+        	// update database with new login time for user
+        	db.UpdateRecord("Users", data, timeCriteria);
 
-        return true;
+        	return true;
+	}
+	// if the hashed password doesn't match password given then fail
+	else
+		return false;
     } else
         return false;
 }
@@ -241,6 +277,10 @@ passMangApp::onInternalPathChange()
         resultEditSuccess();
     else if (internalPath() == "/edit-failure")
         resultEditFailure();
+    else if (internalPath() == "/delete-success")
+        resultDeleteSuccess();
+    else if (internalPath() == "/delete-failure")
+        resultDeleteFailure();
     else
         showHomeScreen();
 }
@@ -287,10 +327,10 @@ passMangApp::updateNavigation()
 
     if (userRole == passMang::Role::Admin) {
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
-        navText += "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;";
-        navText += "<a href='#/search-user'>Search Users</a>&nbsp;&nbsp;";
         navText +=
             "<a href='#/edit-credential'>Edit Credential</a>&nbsp;&nbsp;";
+        navText += "<a href='#/search-user'>Search Users</a>&nbsp;&nbsp;";
+        navText += "<a href='#/add-user'>Add User</a>&nbsp;&nbsp;";
         navText += "<a href='#/edit-user'>Edit User</a>&nbsp;&nbsp;";
     } else if (userRole == passMang::Role::Regular) {
         navText += "<a href='#/add-credential'>Add Credential</a>&nbsp;&nbsp;";
@@ -314,7 +354,7 @@ passMangApp::showHomeScreen()
     updateNavigation();
     // will eventually be connected to credential list and display that here
     auto welcomeText =
-        std::make_unique<WText>("Welcome to the password manager app");
+        std::make_unique<WText>("Welcome to the Password Manager App");
     welcomeText->setInternalPathEncoding(true);
     content->addWidget(std::make_unique<WBreak>());
     content->addWidget(std::make_unique<WBreak>());
@@ -441,29 +481,49 @@ passMangApp::resultEditFailure()
 }
 
 void
+passMangApp::resultDeleteSuccess()
+{
+    assert(content != nullptr);
+    content->addWidget(
+        std::make_unique<statusView>(true, "Successfully Deleted!"));
+}
+
+void
+passMangApp::resultDeleteFailure()
+{
+    assert(content != nullptr);
+    content->addWidget(
+        std::make_unique<statusView>(false, "Deletion failed. Try again"));
+}
+
+void
 passMangApp::searchCredential()
 {
     assert(content != nullptr);
     content->addWidget(std::make_unique<searchCredView>(db, userRole));
 }
+
 void
 passMangApp::editCredential()
 {
     assert(content != nullptr);
     content->addWidget(std::make_unique<editCredentialView>(db));
 }
+
 void
 passMangApp::searchUser()
 {
     assert(content != nullptr);
     content->addWidget(std::make_unique<searchUserView>(db));
 }
+
 void
 passMangApp::editUser()
 {
     assert(content != nullptr);
     content->addWidget(std::make_unique<editUserView>(db));
 }
+
 void
 passMangApp::resultSearchFailure()
 {
