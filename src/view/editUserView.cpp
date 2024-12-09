@@ -90,6 +90,18 @@ editUserView::editUser()
             std::getline(userSS, ogRole, ',');
             std::getline(userSS, LastLogin, '.');
 
+	    std::cout << "OG ROLE: " << ogRole << std::endl;
+
+	    // get rid of whitespace in ogRole (code taken from geeksforgeeks.org)
+	    for (int i = 0; i < ogRole.length(); i++) {
+		if (ogRole[i] == ' ') {
+			ogRole.erase(ogRole.begin() + i);
+			i--;
+		}
+	    }
+
+	    std::cout << "OG ROLE WITH TRIM: " << ogRole << std::endl;
+		
             // make changes based on user input (which text boxes have updates)
             // if no update, then set variable to the og
             if (username.length() == 0)
@@ -101,7 +113,7 @@ editUserView::editUser()
                     role = passMang::Role::Admin;
                 else if (ogRole == "Regular")
                     role = passMang::Role::Regular;
-                else
+                else if (ogRole == "ViewOnly")
                     role = passMang::Role::ViewOnly;
             }
 

@@ -65,7 +65,7 @@ passMangApp::passMangApp(const WEnvironment& env) :
     createNavigationContainer();
 
     auto contentContainer = std::make_unique<WContainerWidget>();
-    contentContainer->setAttributeValue("style", "background-color: #165B33;");
+    contentContainer->setAttributeValue("style", "background-color: #7DA170;");
     content = contentContainer.get();
     root()->addWidget(std::move(contentContainer));
 
@@ -150,22 +150,24 @@ passMangApp::userLogin()
 bool
 passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 {
-    // attempt to retrieve record of user with given login
-    std::string criteria =
-        "Username='" + usernm + "' AND Password='" + pass + "'";
+    // attempt to retrieve record of user with given username
+    std::string criteria = "Username='"+usernm+"'";
+    //    "Username='" + usernm + "' AND Password='" + pass + "'";
     std::string record = db.retrieveRecord("Users", criteria);
-    // std::cout << "RECORD: " << record << std::endl;
+   
+    std::cout << "USERNAME: " << criteria << std::endl; 
+    std::cout << "RECORD: " << record << std::endl;
 
     // if no record of user than fail (if empty), if not get user ID and role
     if (record.empty() == false) {
 
         std::stringstream recordSS(record);
-        std::string ID, username, password, role;
+        std::string ID, username, storedHash, role;
 
         // parse the record to get user attributes
         std::getline(recordSS, ID, ',');
         std::getline(recordSS, username, ',');
-        std::getline(recordSS, password, ',');
+        std::getline(recordSS, storedHash, ',');
         std::getline(recordSS, role, ',');
 
         // get rid of whitespace of role (code taken from geeksforgeeks.org)
@@ -176,38 +178,69 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
             }
         }
 
-        // set id of user (keep string so easier to use throughout application)
-        userID = ID;
+	// get rid of whitespace of storedhash (code taken from geeksforgeeks.org)
+        for (int i = 0; i < storedHash.length(); i++) {
+            if (storedHash[i] == ' ') {
+                storedHash.erase(storedHash.begin() + i);
+                i--;
+            }
+        }
 
-        // set role of user
-        if (role == "admin" || role == "Admin")
-            userRole = passMang::Role::Admin;
-        else if (role == "regular" || role == "Regular")
-            userRole = passMang::Role::Regular;
-        else
-            userRole = passMang::Role::ViewOnly;
+	std::cout << "ROLE: " << role << std::endl;
 
-        // update the last login time (code taken from model team and
-        // geeksforgeeks.org)
-        std::chrono::system_clock::time_point update =
-            std::chrono::system_clock::now();
-        std::time_t currentTime = std::chrono::system_clock::to_time_t(update);
+	std::cout << "ENTERED PASS:" << pass << std::endl;
+	
+	// hash the password entered by user	
+	std::string hashedIn = HashClass::ToHash(pass);
+	
+	std::cout << "ENTERED PASSWORD HASH:" << hashedIn << std::endl;
+	std::cout << "STORED PASSWORD HASH:" << storedHash << std::endl;
+	
+	std::cout << "LENGTH OF ENTERED: " << hashedIn.length() << std::endl;
+	std::cout << "LENGTH OF STORED: " << storedHash.length() << std::endl;
 
-        struct tm* localtime = std::localtime(&currentTime);
+	bool equal = (hashedIn == storedHash);
+	std::cout << "EQUAL? " << equal << std::endl;
+	
+	// compare hashed password to stored hash
+	if(hashedIn == storedHash){
+		
+        	// set id of user (keep string so easier to use throughout application)
+      		 userID = ID;
 
-        char time[50];
-        std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
+	        // set role of user
+	        if (role == "Admin")
+       		     userRole = passMang::Role::Admin;
+   	     	else if (role == "Regular")
+            		userRole = passMang::Role::Regular;
+        	else
+            		userRole = passMang::Role::ViewOnly;
 
-        // std::cout << "UPDATED TIME: " << time << std::endl;
+        	// update the last login time (code taken from model team and
+        	// geeksforgeeks.org)
+        	std::chrono::system_clock::time_point update =
+        	    std::chrono::system_clock::now();
+        	std::time_t currentTime = std::chrono::system_clock::to_time_t(update);
 
-        // define data and criteria for user update
-        std::string timeCriteria = "UserID=" + ID;
-        std::string data = "LastLogin='" + std::string(time) + "'";
+        	struct tm* localtime = std::localtime(&currentTime);
 
-        // update database with new login time for user
-        db.UpdateRecord("Users", data, timeCriteria);
+        	char time[50];
+        	std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
 
-        return true;
+        	std::cout << "UPDATED TIME: " << time << std::endl;
+
+        	// define data and criteria for user update
+        	std::string timeCriteria = "UserID=" + ID;
+        	std::string data = "LastLogin='" + std::string(time) + "'";
+
+        	// update database with new login time for user
+        	db.UpdateRecord("Users", data, timeCriteria);
+
+        	return true;
+	}
+	// if the hashed password doesn't match password given then fail
+	else
+		return false;
     } else
         return false;
 }
