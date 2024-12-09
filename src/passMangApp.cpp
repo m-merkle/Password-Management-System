@@ -49,7 +49,9 @@ passMangApp::passMangApp(const WEnvironment& env) :
 {
     setTitle(appName);
 
-    root()->setAttributeValue("style", "background-color: #008000;");
+    root()->setAttributeValue(
+		    "style", "background-color: #008000; margin: 0 auto;"
+		    "width: 100%;");
 
     // add CSS theme eventually
 
@@ -82,19 +84,19 @@ passMangApp::userLogin()
     auto loginContainer = std::make_unique<WContainerWidget>();
     loginContainer->setAttributeValue(
         "style",
-        "padding: 20px; background-color: #165B33; border: 1px solid #ddd; "
+        "padding: 20px; background-color: #165B33; "
         "border-radius: 5px width: 300px; margin: auto;");
 
     // create label and username line
     auto usernameText =
         loginContainer->addWidget(std::make_unique<WText>("Username: "));
     usernameText->setAttributeValue("style",
-                                    "font-weight: bold; margin: auto;");
+                                    "font-weight: bold; margin: 0  auto;");
 
     auto usernameIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
     usernameIn->setAttributeValue(
         "style",
-        "width: 20%; padding: 5px; margin-bottom: 10px; margin: auto;");
+        "width: 20%; padding: 5px; margin-bottom: 10px; margin: 0 auto;");
 
     loginContainer->addWidget(std::make_unique<WBreak>());
 
@@ -247,7 +249,7 @@ void
 passMangApp::createHeaderContainer()
 {
     auto header = std::make_unique<WContainerWidget>();
-    header->setAttributeValue("style", "background-color: #C0C0C0;");
+    header->setAttributeValue("style", "background-color: #FFD700;");
     header->addWidget(std::make_unique<WText>("<h1>" + appName + "</h1>"));
     root()->addWidget(std::move(header));
 }
