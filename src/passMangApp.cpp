@@ -49,9 +49,9 @@ passMangApp::passMangApp(const WEnvironment& env) :
 {
     setTitle(appName);
 
-    root()->setAttributeValue(
-		    "style", "background-color: #522888; margin: 0 auto;"
-		    "width: 100%;");
+    root()->setAttributeValue("style",
+                              "background-color: #522888; margin: 0 auto;"
+                              "width: 100%;");
 
     // add CSS theme eventually
 
@@ -81,14 +81,14 @@ passMangApp::passMangApp(const WEnvironment& env) :
 std::string
 passMangApp::trim(std::string text)
 {
-	// get rid of whitespace (code taken from geeksforgeeks.org)
-	for(int i = 0; i < text.length(); i++){
-		if(text[i] == ' ') {
-			text.erase(text.begin() + i);
-			i--;
-		}
-	}
-	return text;	
+    // get rid of whitespace (code taken from geeksforgeeks.org)
+    for (int i = 0; i < text.length(); i++) {
+        if (text[i] == ' ') {
+            text.erase(text.begin() + i);
+            i--;
+        }
+    }
+    return text;
 }
 
 void
@@ -108,7 +108,7 @@ passMangApp::userLogin()
         loginContainer->addWidget(std::make_unique<WText>("Username: "));
     usernameText->setAttributeValue("style",
                                     "font-weight: bold; margin: 0  auto;"
-				    "color: #DDDDDD;");
+                                    "color: #DDDDDD;");
 
     auto usernameIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
     usernameIn->setAttributeValue(
@@ -122,7 +122,7 @@ passMangApp::userLogin()
         loginContainer->addWidget(std::make_unique<WText>("Password: "));
     passwordText->setAttributeValue("style",
                                     "font-weight: bold; margin: auto;"
-				    "color: #DDDDDD;");
+                                    "color: #DDDDDD;");
 
     auto passwordIn = loginContainer->addWidget(std::make_unique<WLineEdit>());
     passwordIn->setAttributeValue(
@@ -152,7 +152,7 @@ passMangApp::userLogin()
                        passwordIn->text().toUTF8())) {
             // show home screen once validated
             showHomeScreen();
-	    setInternalPath("/home");
+            setInternalPath("/home");
         } else {
             if (invalidCount == 0) {
                 auto invalidLoginText =
@@ -170,12 +170,12 @@ bool
 passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
 {
     // attempt to retrieve record of user with given username
-    std::string criteria = "Username='"+usernm+"'";
+    std::string criteria = "Username='" + usernm + "'";
     //    "Username='" + usernm + "' AND Password='" + pass + "'";
     std::string record = db.retrieveRecord("Users", criteria);
-   
-    //std::cout << "USERNAME: " << criteria << std::endl; 
-    //std::cout << "RECORD: " << record << std::endl;
+
+    // std::cout << "USERNAME: " << criteria << std::endl;
+    // std::cout << "RECORD: " << record << std::endl;
 
     // if no record of user than fail (if empty), if not get user ID and role
     if (record.empty() == false) {
@@ -188,67 +188,70 @@ passMangApp::checkLogin(const std::string& usernm, const std::string& pass)
         std::getline(recordSS, username, ',');
         std::getline(recordSS, storedHash, ',');
         std::getline(recordSS, role, ',');
-	
-	// trim all whitespace
-	ID = trim(ID);
-	username = trim(username);
-	storedHash = trim(storedHash);
-	role = trim(role);	
 
-	//std::cout << "ROLE: " << role << std::endl;
-	//std::cout << "ENTERED PASS:" << pass << std::endl;
-	
-	// hash the password entered by user	
-	std::string hashedIn = HashClass::ToHash(pass);
-	
-	//std::cout << "ENTERED PASSWORD HASH:" << hashedIn << std::endl;
-	//std::cout << "STORED PASSWORD HASH:" << storedHash << std::endl;
-	
-	//std::cout << "LENGTH OF ENTERED: " << hashedIn.length() << std::endl;
-	//std::cout << "LENGTH OF STORED: " << storedHash.length() << std::endl;
+        // trim all whitespace
+        ID = trim(ID);
+        username = trim(username);
+        storedHash = trim(storedHash);
+        role = trim(role);
 
-	//bool equal = (hashedIn == storedHash);
-	//std::cout << "EQUAL? " << equal << std::endl;
-	
-	// compare hashed password to stored hash
-	if(hashedIn == storedHash){
-		
-        	// set id of user (keep string so easier to use throughout application)
-      		 userID = ID;
+        // std::cout << "ROLE: " << role << std::endl;
+        // std::cout << "ENTERED PASS:" << pass << std::endl;
 
-	        // set role of user
-	        if (role == "Admin")
-       		     userRole = passMang::Role::Admin;
-   	     	else if (role == "Regular")
-            		userRole = passMang::Role::Regular;
-        	else if (role == "ViewOnly")
-            		userRole = passMang::Role::ViewOnly;
+        // hash the password entered by user
+        std::string hashedIn = HashClass::ToHash(pass);
 
-        	// update the last login time (code taken from model team and
-        	// geeksforgeeks.org)
-        	std::chrono::system_clock::time_point update =
-        	    std::chrono::system_clock::now();
-        	std::time_t currentTime = std::chrono::system_clock::to_time_t(update);
+        // std::cout << "ENTERED PASSWORD HASH:" << hashedIn << std::endl;
+        // std::cout << "STORED PASSWORD HASH:" << storedHash << std::endl;
 
-        	struct tm* localtime = std::localtime(&currentTime);
+        // std::cout << "LENGTH OF ENTERED: " << hashedIn.length() << std::endl;
+        // std::cout << "LENGTH OF STORED: " << storedHash.length() <<
+        // std::endl;
 
-        	char time[50];
-        	std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
+        // bool equal = (hashedIn == storedHash);
+        // std::cout << "EQUAL? " << equal << std::endl;
 
-        	//std::cout << "UPDATED TIME: " << time << std::endl;
+        // compare hashed password to stored hash
+        if (hashedIn == storedHash) {
 
-        	// define data and criteria for user update
-        	std::string timeCriteria = "UserID=" + ID;
-        	std::string data = "LastLogin='" + std::string(time) + "'";
+            // set id of user (keep string so easier to use throughout
+            // application)
+            userID = ID;
 
-        	// update database with new login time for user
-        	db.UpdateRecord("Users", data, timeCriteria);
+            // set role of user
+            if (role == "Admin")
+                userRole = passMang::Role::Admin;
+            else if (role == "Regular")
+                userRole = passMang::Role::Regular;
+            else if (role == "ViewOnly")
+                userRole = passMang::Role::ViewOnly;
 
-        	return true;
-	}
-	// if the hashed password doesn't match password given then fail
-	else
-		return false;
+            // update the last login time (code taken from model team and
+            // geeksforgeeks.org)
+            std::chrono::system_clock::time_point update =
+                std::chrono::system_clock::now();
+            std::time_t currentTime =
+                std::chrono::system_clock::to_time_t(update);
+
+            struct tm* localtime = std::localtime(&currentTime);
+
+            char time[50];
+            std::strftime(time, sizeof(time), "%Y-%m-%d %I:%M:%S", localtime);
+
+            // std::cout << "UPDATED TIME: " << time << std::endl;
+
+            // define data and criteria for user update
+            std::string timeCriteria = "UserID=" + ID;
+            std::string data = "LastLogin='" + std::string(time) + "'";
+
+            // update database with new login time for user
+            db.UpdateRecord("Users", data, timeCriteria);
+
+            return true;
+        }
+        // if the hashed password doesn't match password given then fail
+        else
+            return false;
     } else
         return false;
 }
@@ -258,7 +261,7 @@ passMangApp::userLogout()
 {
     navigation->hide();
     content->clear();
-    userLogin();    
+    userLogin();
 }
 
 void
@@ -268,7 +271,7 @@ passMangApp::onInternalPathChange()
 
     content->clear();
     if (internalPath() == "/home")
-	showHomeScreen();
+        showHomeScreen();
     else if (internalPath() == "/add-user")
         addUser();
     else if (internalPath() == "/add-credential")
@@ -355,9 +358,9 @@ passMangApp::updateNavigation()
     navigation->addWidget(std::move(navLink));
 
     // add logout button to navigation
-    auto logoutButton = navigation->addWidget(std::make_unique<WPushButton>("Logout"));
+    auto logoutButton =
+        navigation->addWidget(std::make_unique<WPushButton>("Logout"));
     logoutButton->clicked().connect(this, &passMangApp::userLogout);
-
 
     // show after updated navigation (only called after login)
     navigation->show();
@@ -373,7 +376,7 @@ passMangApp::showHomeScreen()
     updateNavigation();
     // will eventually be connected to credential list and display that here
     auto welcomeText =
-        std::make_unique<WText>("Welcome to the Password Manager App");
+        std::make_unique<WText>("Welcome to the Password Manager Application");
     welcomeText->setInternalPathEncoding(true);
     content->addWidget(std::make_unique<WBreak>());
     content->addWidget(std::make_unique<WBreak>());

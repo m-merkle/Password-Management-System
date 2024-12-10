@@ -22,12 +22,12 @@
 using namespace Wt;
 
 searchUserView::searchUserView(Database& db) :
-    db(db), userBox(nullptr), resultBox(nullptr)
+    db(db), resultBox(nullptr), userBox(nullptr)
 {
     // UserForm(false);
 
     addWidget(std::make_unique<WBreak>());
-    resultBox = addWidget(std::make_unique<Wt::WGroupBox>("Results:"));
+    resultBox = addWidget(std::make_unique<Wt::WGroupBox>("Results"));
 
     addButton->setText("Search");
     addButton->clicked().connect(this, &searchUserView::searchUser);

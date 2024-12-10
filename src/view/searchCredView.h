@@ -22,6 +22,8 @@ class searchCredView : public CredentialForm
     void searchCred();
     Database& db;
     passMang::Role userRole;
+    Wt::WGroupBox* resultBox;
+    Wt::WContainerWidget* contentContainer;
 };
 
 #endif /* SEARCHCREDVIEW_H */
