@@ -64,17 +64,23 @@ Credential::getDescription() const
     return description;
 }
 
-std::chrono::system_clock::time_point
+std::string
 Credential::getLastUpdated() const
 {
     return lastUpdated;
 }
 
-void
-Credential::setLastUpdated()
+void Credential::setLastUpdated()
 {
-    lastUpdated = std::chrono::system_clock::now();
+    lastupdated = std::chrono::system_clock::now(); 
+    std::time_t unix_timestamp = std::chrono::system_clock::to_time_t(lastupdated); 
+    std::tm* local_time = std::localtime(&unix_timestamp); 
+
+    char time_str[100];
+    std::strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", local_time); 
+    lastUpdated = time_str; 
 }
+
 
 void
 Credential::setCredName(const std::string& name)

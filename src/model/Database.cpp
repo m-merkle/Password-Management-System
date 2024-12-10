@@ -203,9 +203,7 @@ Database::insertCredential(const passMang::Credential& credential,
         credential.getCredName() + "', '" + credential.getUsername() + "', '" +
         credential.getPassword() + "', '" + credential.getEmail() + "', '" +
         credential.getDescription() + "', '" +
-        std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
-                           credential.getLastUpdated().time_since_epoch())
-                           .count()) +
+        credential.getLastUpdated() +
         "', '" + userid + "'";
     return insertRecord("Credentials", sql);
 }

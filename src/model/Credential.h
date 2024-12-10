@@ -33,7 +33,7 @@ class Credential
     std::string getUsername() const;
     std::string getPassword() const;
     std::string getDescription() const;
-    std::chrono::system_clock::time_point getLastUpdated() const;
+    std::string getLastUpdated() const;
 
     // Setters
     void setLastUpdated();
@@ -52,6 +52,7 @@ class Credential
         Wt::Dbo::field(a, password, "password");
         Wt::Dbo::field(a, email, "email");
         Wt::Dbo::field(a, description, "description");
+        Wt::Dbo::field(a, lastUpdated, "last-updated");
     }
 
   private:
@@ -61,7 +62,8 @@ class Credential
     std::string username;
     std::string password;
     std::string description;
-    std::chrono::system_clock::time_point lastUpdated;
+    std::chrono::system_clock::time_point lastupdated;
+    std::string lastUpdated;
 };
 
 }
