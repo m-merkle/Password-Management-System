@@ -1,4 +1,4 @@
-# Model source code
+# Model Source Code
 
 # The model consist of User, userType, Credential, and database controller classes to run.
 
