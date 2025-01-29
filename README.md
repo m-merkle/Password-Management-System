@@ -20,5 +20,4 @@ This project was developed over the course of a semester by a team of 10. The C+
 * .gitignore     - Specifies files and directories to exclude from Git commits
 * .gitmodules    - Tracks the Wt Web Toolkit submodule
 ## Demonstration Video
-[![Password Manager Project Demonstration Video](https://img.youtu.be/eaOlX4qEVZ8.jpg)](https://youtu.be/eaOlX4qEVZ8)
-
+[![Password Manager Project Demonstration Video](https://img.youtube.com/vi/eaOlX4qEVZ8/0.jpg)](https://www.youtube.com/watch?v=eaOlX4qEVZ8)
