@@ -1,29 +1,20 @@
-# Group Password Manager for Shared Credentials
-
-## Repository Structure
-
+# Password Management System
+## Key Points
+- Web-based application built in C++ using the Wt Web Toolkit for dynamic UI and SQLite to store credentials
+- Supports storing, retrieving, and managing credentials with Admin, Regular, and View-Only roles
+- Tracks credential changes and user logins for security, with formal SRS and design documentation
+- Followed Agile practices with weekly sprints to ensure iterative development, maintain flexibility, and achieve project milestones on time
+## Project Overview
+This project was developed over the course of a semester by a team of 10. The C++-based password management system uses the Wt Web Toolkit for dynamic UI and SQLite for secure credential storage. The project involved close collaboration between team members to complete both the back-end and front-end development. It features role-based access control, credential change tracking, and user login logging. The project followed Agile practices with weekly sprints, culminating in a successful deployment on the University’s CS OpenBSD server.
+## Project Structure
 ### Folders
-
-* src    - Source code
-* tests  - Test code
+* src    - Source code for the system
+* tests  - Unit tests for verifying functionality
 * sdl    - Software development library
-* libs   - Software dependencies (libraries)
-* .gitea - Issue and Pull Request Templates
-
+* libs   - External dependencies and libraries
 ### Files
-
-* .gitattributes - Configuration of file type settings
-* .gitignore     - List of files to ignore on commits
-
-Other top-level files are described below.
-
-## Software Peer Review Process
-
-When a pull request (PR) is created the team member creating the PR will complete the pull request template. This template ensures that every PR contains all the information needed to support an effective and efficient peer review.
-
-Every PR must be reviewed and approved by at least two other team members. The reviewers must verify the PR's source code meets the project's standards. To streamline the review process, reviewers shall use the included [pull request review template](pull_request_review_template.md) document.
-
-## Code Style Verification
-
-The included `.clang-format` file is the configuration file for the `clang-format` tool. This tool may be used to enforce a C++ source code style. The file included here is based on the Mozilla coding style for C++. For instructions on how you may automatically check and/or format your source code, see the [code style](code_style.md) document.
-
+* .gitattributes - Defines Git configuration for handling file types
+* .gitignore     - Specifies files and directories to exclude from Git commits
+* .gitmodules    - Tracks the Wt Web Toolkit submodule
+## Demonstration Video
+[![Password Manager Project Demonstration Video](https://img.youtube.com/vi/eaOlX4qEVZ8/0.jpg)](https://www.youtube.com/watch?v=eaOlX4qEVZ8)
