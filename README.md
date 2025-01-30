@@ -6,9 +6,6 @@
 - Followed Agile practices with weekly sprints to ensure iterative development, maintain flexibility, and achieve project milestones on time
 ## Project Overview
 This project was developed over the course of a semester by a team of 10. The C++-based password management system uses the Wt Web Toolkit for dynamic UI and SQLite for secure credential storage. The project involved close collaboration between team members to complete both the back-end and front-end development. It features role-based access control, credential change tracking, and user login logging. The project followed Agile practices with weekly sprints, culminating in a successful deployment on the University’s CS OpenBSD server.
-## Instructions
-1. 
-
 ## Project Structure
 ### Folders
 * src    - Source code for the system
